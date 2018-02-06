@@ -1,0 +1,269 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>nb-mall</artifactId>
+        <groupId>com.nowbook</groupId>
+        <version>dev</version>
+    </parent>
+    <artifactId>nb-mall-web</artifactId>
+    <packaging>war</packaging>
+    <name>nb-mall-web</name>
+    <version>${nb.version}</version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+        <build.number>${maven.build.timestamp}</build.number>
+    </properties>
+
+    <dependencies>
+
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-search</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-site</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-category</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-configuration</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>javax.mail-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-web-ec</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.sgroschupf</groupId>
+            <artifactId>zkclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-alipay</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-unionpay</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-sms</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-item-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-shop-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-related-api</artifactId>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.nowbook</groupId>-->
+            <!--<artifactId>nb-rsapi-api</artifactId>-->
+            <!--<version>1.2-SNAPSHOT</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-coupons-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>mall</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <webResources>
+                        <webResource>
+                            <directory>src/main/webapp/WEB-INF</directory>
+                            <includes>
+                                <include>*.xml</include>
+                            </includes>
+                            <targetPath>WEB-INF</targetPath>
+                            <filtering>true</filtering>
+                        </webResource>
+                    </webResources>
+
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-user</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-item</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-shop</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-trade</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-brand</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-coupons</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-related</artifactId>
+                </dependency>
+
+                <!--<dependency>-->
+                    <!--<groupId>com.nowbook</groupId>-->
+                    <!--<artifactId>nb-rsapi</artifactId>-->
+                    <!--<version>1.2-SNAPSHOT</version>-->
+                <!--</dependency>-->
+
+
+
+            </dependencies>
+
+            <build>
+                <filters>
+                    <filter>src/main/filter/dev.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>test</id>
+            <build>
+                <filters>
+                    <filter>src/main/filter/test.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>prepub</id>
+            <build>
+                <filters>
+                    <filter>src/main/filter/prepub.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <build>
+                <filters>
+                    <filter>src/main/filter/prod.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>qa</id>
+            <build>
+                <filters>
+                    <filter>src/main/filter/qa.properties</filter>
+                </filters>
+            </build>
+            <properties>
+                <mode>prepub</mode>
+            </properties>
+        </profile>
+    </profiles>
+</project>

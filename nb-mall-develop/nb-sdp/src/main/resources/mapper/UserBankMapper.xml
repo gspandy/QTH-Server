@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+<mapper namespace="UserBankMapper">
+    <resultMap id="UserBankMap" type="com.nowbook.sdp.model.UserBank">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="type" column="type"/>
+        <result property="openId" column="open_id"/>
+        <result property="bank" column="bank"/>
+        <result property="bankType" column="bank_type"/>
+        <result property="bankUser" column="bank_user"/>
+        <result property="bankCardNo" column="bank_card_no"/>
+        <result property="bankCardUserNo" column="bank_card_user_no"/>
+        <result property="bankMobile" column="bank_mobile"/>
+        <result property="createAt" column="create_at"/>
+        <result property="updateAt" column="update_at"/>
+    </resultMap>
+
+    <sql id="columns">
+        user_id, type, open_id, bank, bank_type, bank_user,bank_card_no, bank_card_user_no,bank_mobile,create_at, update_at
+    </sql>
+
+    <select id="selectByUserId" parameterType="com.nowbook.sdp.model.UserBank" resultMap="UserBankMap">
+        select id,
+        <include refid="columns"/>
+        from user_bank where user_id = #{userId}
+    </select>
+
+    <insert id="insert" parameterType="com.nowbook.sdp.model.UserBank" useGeneratedKeys="true" keyProperty="id">
+        insert into user_bank ( <include refid="columns"/>)
+        values (#{userId}, #{type}, #{openId}, #{bank}, #{bankType},#{bankUser}, #{bankCardNo},#{bankCardUserNo},#{bankMobile}, now(), now())
+    </insert>
+
+    <update id="updateByUserId" parameterType="com.nowbook.sdp.model.UserBank">
+        update user_bank
+        <set>
+            update_at = now(),
+            <if test="type != null">type = #{type},</if>
+            <if test="openId != null">open_id = #{openId},</if>
+            <if test="bank != null">bank = #{bank},</if>
+            <if test="bankType != null">bank_type = #{bankType},</if>
+            <if test="bankUser != null">bank_user = #{bankUser},</if>
+            <if test="bankCardNo != null">bank_card_no = #{bankCardNo},</if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteById" parameterType="com.nowbook.sdp.model.UserBank" >
+        DELETE FROM user_bank WHERE id = #{id}
+    </delete>
+</mapper>

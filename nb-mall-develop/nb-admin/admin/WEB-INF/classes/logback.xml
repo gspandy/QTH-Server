@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property resource="app.properties"/>
+    <appender name="RootLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/Users/robin/Logs/nb-admin/root.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>/Users/robin/Logs/nb-admin/root-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="CategoryLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/Users/robin/Logs/nb-admin/category.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>/Users/robin/Logs/nb-admin/category-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="SiteLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/Users/robin/Logs/nb-admin/site.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>/Users/robin/Logs/nb-admin/site-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+
+        </rollingPolicy>
+    </appender>
+
+    <appender name="SearchLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/Users/robin/Logs/nb-admin/search.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>/Users/robin/Logs/nb-admin/search-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+
+        </rollingPolicy>
+    </appender>
+
+
+    <appender name="RestLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/Users/robin/Logs/nb-admin/rest.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>/Users/robin/Logs/nb-admin/rest-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+
+        </rollingPolicy>
+    </appender>
+
+    <appender name="WebLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/Users/robin/Logs/nb-admin/web.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>/Users/robin/Logs/nb-admin/web-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+
+        </rollingPolicy>
+    </appender>
+
+
+    <appender name="SmsLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/Users/robin/Logs/nb-admin/sms.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>/Users/robin/Logs/nb-admin/sms-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+
+        </rollingPolicy>
+    </appender>
+
+    <appender name="OpenLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/Users/robin/Logs/nb-admin/open/api.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>/Users/robin/Logs/nb-admin/open/api-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="OpenLogErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/Users/robin/Logs/nb-admin/open/error.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>/Users/robin/Logs/nb-admin/open/error-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <encoder>
+            <pattern>%-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <!-- Only log level INFO and above -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <logger name="com.nowbook.category" level="INFO" additivity="true">
+        <appender-ref ref="CategoryLogFile"/>
+    </logger>
+
+    <logger name="com.nowbook.site" level="INFO" additivity="true">
+        <appender-ref ref="SiteLogFile"/>
+    </logger>
+
+    <logger name="com.nowbook.search" level="INFO" additivity="true">
+        <appender-ref ref="SearchLogFile"/>
+    </logger>
+
+    <logger name="com.nowbook.admin" level="INFO" additivity="true">
+        <appender-ref ref="WebLogFile"/>
+    </logger>
+
+    <logger name="com.nowbook.restful" level="debug" additivity="true">
+        <appender-ref ref="RestLogFile"/>
+    </logger>
+
+    <logger name="com.nowbook.sms" level="debug" additivity="true">
+        <appender-ref ref="SmsLogFile"/>
+    </logger>
+
+    <logger name="com.nowbook.open" level="info" additivity="true">
+        <appender-ref ref="OpenLogFile"/>
+    </logger>
+
+    <logger name="com.nowbook.open" level="error" additivity="true">
+        <appender-ref ref="OpenLogErrorFile"/>
+    </logger>
+
+    <!-- Strictly speaking, the level attribute is not necessary since -->
+    <!-- the level of the root level is set to DEBUG by default.       -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+
+</configuration>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+<mapper namespace="AccessToken">
+    <resultMap id="AccessTokenMap" type="AccessToken">
+        <id property="id" column="id"/>
+        <result property="updated_at" column="updated_at"/>
+        <result property="access_token" column="access_token"/>
+    </resultMap>
+
+    <insert id="createAccessToken" parameterType="AccessToken"  keyProperty="id">
+        insert into access_token (access_token,updated_at) values (#{access_token},#{updated_at});
+    </insert>
+
+    <update id="updateAccessToken" parameterType="map">
+        update access_token set updated_at=now(),access_token=#{access_token} where id = 1;
+    </update>
+
+    <select id="selectAccessToken" resultMap="AccessTokenMap">
+        select id,access_token,updated_at from access_token;
+    </select>
+</mapper>

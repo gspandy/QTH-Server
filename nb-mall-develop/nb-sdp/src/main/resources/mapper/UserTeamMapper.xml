@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="TeamMapper" >
+    <resultMap id="TeamMap" type="com.nowbook.sdp.model.UserTeam" >
+        <id column="id" property="id" />
+        <result column="name" property="name"/>
+        <result column="leader" property="leader"/>
+        <result column="create_at" property="createAt"/>
+        <result column="update_at" property="updateAt"/>
+    </resultMap>
+
+    <sql id="columns" >
+        name, leader, create_at, update_at
+    </sql>
+
+    <select id="selectBy" parameterType="com.nowbook.sdp.model.UserTeam" resultMap="TeamMap">
+        SELECT id,<include refid="columns"/>  FROM user_team
+        <where>
+            <if test="id != null and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="leader != null and leader != ''">
+                AND leader = #{leader}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.nowbook.sdp.model.UserTeam">
+        INSERT INTO user_team (<include refid="columns"/>)
+        VALUES (#{name}, #{leader}, now(), now())
+    </insert>
+
+    <delete id="deleteByLeader" parameterType="com.nowbook.sdp.model.UserTeam" >
+        DELETE FROM user_team WHERE leader = #{leader}
+    </delete>
+
+    <update id="updateByLeader" parameterType="com.nowbook.sdp.model.UserTeam" >
+        UPDATE user_team
+        <set >
+            update_at = now(),
+            <if test="name != null" >name = #{name},</if>
+        </set>
+        WHERE leader = #{leader}
+    </update>
+</mapper>

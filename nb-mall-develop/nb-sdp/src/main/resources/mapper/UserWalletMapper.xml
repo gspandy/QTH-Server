@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="UserWalletMapper" >
+    <resultMap id="UserWalletMap" type="com.nowbook.sdp.model.UserWallet" >
+        <id column="id" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="balance" property="balance"/>
+        <result column="advance" property="advance"/>
+        <result column="deposit" property="deposit"/>
+        <result column="pending_earnings" property="pendingEarnings"/>
+        <result column="pending_bonuses" property="pendingBonuses"/>
+        <result column="unpaid_deliver_fee" property="unpaidDeliverFee"/>
+        <result column="total_earnings" property="totalEarnings"/>
+        <result column="total_bonuses" property="totalBonuses"/>
+        <result column="total_deliver_fee" property="totalDeliverFee"/>
+        <result column="create_at" property="createAt"/>
+        <result column="update_at" property="updateAt"/>
+    </resultMap>
+
+    <sql id="columns" >
+        user_id, balance, advance, deposit, pending_earnings, pending_bonuses, unpaid_deliver_fee,
+        total_earnings, total_bonuses, total_deliver_fee, create_at, update_at
+    </sql>
+
+    <sql id="withUsersColumns" >
+        w.user_id, w.balance, w.advance, w.deposit, w.pending_earnings, w.pending_bonuses, w.unpaid_deliver_fee,
+        w.total_earnings, w.total_bonuses, w.total_deliver_fee, w.create_at, w.update_at
+    </sql>
+
+    <select id="selectBy" parameterType="com.nowbook.sdp.model.UserWallet" resultMap="UserWalletMap">
+        SELECT id,<include refid="columns"/>  FROM user_wallet WHERE user_id = #{userId}
+    </select>
+
+    <insert id="insert" parameterType="com.nowbook.sdp.model.UserWallet">
+        INSERT INTO user_wallet (<include refid="columns"/>)
+        VALUES (#{userId}, #{balance}, #{advance}, #{deposit}, #{pendingEarnings}, #{pendingBonuses},
+        #{unpaidDeliverFee}, #{totalEarnings}, #{totalBonuses}, #{totalDeliverFee}, now(), now())
+    </insert>
+
+    <update id="updateByUserId" parameterType="com.nowbook.sdp.model.UserWallet" >
+        UPDATE user_wallet
+        <set >
+            update_at = now(),
+            <if test="balance != null">balance = #{balance},</if>
+            <if test="advance != null">advance = #{advance},</if>
+            <if test="deposit != null">deposit = #{deposit},</if>
+            <if test="pendingEarnings != null">pending_earnings = #{pendingEarnings},</if>
+            <if test="pendingBonuses != null">pending_bonuses = #{pendingBonuses},</if>
+            <if test="unpaidDeliverFee != null">unpaid_deliver_fee = #{unpaidDeliverFee},</if>
+            <if test="totalEarnings != null">total_earnings = #{totalEarnings},</if>
+            <if test="totalBonuses != null">total_bonuses = #{totalBonuses},</if>
+            <if test="totalDeliverFee != null">total_deliver_fee = #{totalDeliverFee},</if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
+
+    <select id="selectByMobile" parameterType="java.lang.String" resultMap="UserWalletMap">
+        SELECT w.id,<include refid="withUsersColumns"/>
+        FROM user_wallet w left join users u on w.user_id = u.id
+        WHERE u.mobile = #{mobile}
+    </select>
+
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2012 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+        <!--sdp related entity-->
+        <typeAlias alias="UserLevel" type="com.nowbook.sdp.model.UserLevel"/>
+        <typeAlias alias="Distributions" type="com.nowbook.sdp.model.Distributions"/>
+        <typeAlias alias="DistributorsAudit" type="com.nowbook.sdp.model.DistributorsAudit"/>
+    </typeAliases>
+</configuration>

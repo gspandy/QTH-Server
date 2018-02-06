@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+<mapper namespace="UserLevelMapper">
+    <resultMap id="UserLevelMap" type="com.nowbook.sdp.model.UserLevel">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="level" column="level"/>
+        <result property="inviter" column="inviter"/>
+        <result property="blackInviter" column="black_inviter"/>
+        <result property="createAt" column="create_at"/>
+        <result property="updateAt" column="update_at"/>
+        <result property="levelUpAt" column="level_up_at"/>
+        <result property="levelUpBlackAt" column="level_up_black_at"/>
+    </resultMap>
+
+    <sql id="columns">
+        user_id, level, inviter, black_inviter, create_at, update_at, level_up_at ,level_up_black_at
+    </sql>
+
+    <select id="selectByUserId" parameterType="com.nowbook.sdp.model.UserLevel" resultMap="UserLevelMap">
+        select id,
+        <include refid="columns"/>
+        from user_level where user_id = #{userId}
+    </select>
+
+
+    <select id="selectByInviterAndLevel" parameterType="com.nowbook.sdp.model.UserLevel" resultMap="UserLevelMap">
+        select id,
+        <include refid="columns"/>
+        from user_level
+        <where>
+            <if test="inviter != null and inviter != ''">
+                AND inviter = #{inviter}
+            </if>
+            <if test="level != null and level != ''">
+                AND level = #{level}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.nowbook.sdp.model.UserLevel" useGeneratedKeys="true" keyProperty="id">
+        insert into user_level (<include refid="columns"/>)
+        values (#{userId}, #{level}, #{inviter},#{blackInviter} ,now(), now(), #{levelUpAt}, #{levelUpBlackAt})
+    </insert>
+
+    <update id="updateByUserId" parameterType="com.nowbook.sdp.model.UserLevel">
+        update user_level
+        <set>
+            update_at = now(),
+            <if test="level != null">level = #{level},</if>
+            <if test="inviter != null">inviter = #{inviter},</if>
+            <if test="levelUpAt != null">level_up_at = #{levelUpAt},</if>
+            <if test="levelUpBlackAt != null">level_up_black_at = #{levelUpBlackAt},</if>
+        </set>
+        where user_id = #{userId}
+    </update>
+</mapper>

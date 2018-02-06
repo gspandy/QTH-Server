@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+<mapper namespace="UserCost">
+    <resultMap id="userCostMap" type="UserCost">
+        <id property="id" column="id"/>
+        <result property="totalCost" column="total_cost"/>
+        <result property="efficientCost" column="efficient_cost"/>
+        <result property="updateAt" column="update_at"/>
+    </resultMap>
+
+    <select id="findById" parameterType="long" resultMap="userCostMap">
+        select * from user_cost where id=#{id}
+    </select>
+
+    <!-- 插入用户： 1.由数据库生成id并赋值到user对象  -->
+    <insert id="create" parameterType="UserCost" useGeneratedKeys="true" keyProperty="id">
+        insert into user_cost (id,total_cost,efficient_cost,update_at)
+        values (#{id},#{totalCost},#{efficientCost},now())
+    </insert>
+
+    <update id="update" parameterType="UserCost">
+        update user_cost
+        <set>
+            update_at=now(),
+            total_cost=#{totalCost},
+            efficient_cost=#{efficientCost}
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

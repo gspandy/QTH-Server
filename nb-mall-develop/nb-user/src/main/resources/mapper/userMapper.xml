@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+<mapper namespace="User">
+    <resultMap id="userMap" type="User">
+        <id property="id" column="id"/>
+        <result property="email" column="email"/>
+        <result property="name" column="name"/>
+        <result property="mobile" column="mobile"/>
+        <result property="encryptedPassword" column="encrypted_password"/>
+        <result property="type" column="type"/>
+        <result property="status" column="status"/>
+        <result property="tags" column="tags"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <sql id="columns">
+        email,name,mobile,encrypted_password,type,status,tags,created_at,updated_at
+    </sql>
+
+    <select id="findById" parameterType="long" resultMap="userMap">
+        select id,
+        <include refid="columns"/>
+        from users where id=#{id}
+    </select>
+
+    <select id="findByEmail" parameterType="string" resultMap="userMap">
+        select id,
+        <include refid="columns"/>
+        from users where email=#{email}
+    </select>
+
+    <select id="findByName" parameterType="string" resultMap="userMap">
+        select id,
+        <include refid="columns"/>
+        from users where name=#{name}
+    </select>
+
+    <select id="findByMobile" parameterType="string" resultMap="userMap">
+        select id,
+        <include refid="columns"/>
+        from users where mobile=#{mobile}
+    </select>
+
+    <select id="findByTypes" resultMap="userMap">
+        select id,
+        <include refid="columns"/>
+        from users
+        <if test="type.size()!=0">
+            where type in
+            <foreach collection="type" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by id asc limit #{offset},#{limit}
+    </select>
+
+    <select id="findByType" resultMap="userMap">
+        select id,
+        <include refid="columns"/>
+        from users
+        <if test="type!=null">
+            where type=#{type}
+        </if>
+        order by id desc limit #{offset},#{limit}
+    </select>
+
+    <!-- 插入用户： 1.由数据库生成id并赋值到user对象  -->
+    <insert id="create" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into users (
+        <include refid="columns"/>
+        )
+        values (#{email},#{name},#{mobile},#{encryptedPassword},#{type},#{status},#{tags},now(),now())
+    </insert>
+
+    <update id="update" parameterType="User">
+        update users
+        <set>
+            updated_at=now(),
+            <if test="email!=null">email = #{email},</if>
+            <if test="encryptedPassword!= null">encrypted_password=#{encryptedPassword},</if>
+            <if test="type != null">type=#{type},</if>
+            <if test="name != null">name=#{name},</if>
+            <if test="mobile != null">mobile=#{mobile},</if>
+            <if test="status !=null">status=#{status},</if>
+            <if test="tags !=null">tags=#{tags},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="batchUpdateStatus">
+        update users set
+        updated_at=now(),
+        status = #{status}
+        where id in
+        <foreach collection="ids" item="id"
+                 open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <delete id="delete" parameterType="long">
+        delete from users where id=#{id}
+    </delete>
+
+    <!--pagination-->
+    <select id="count" resultType="long">
+        select count(1) from users where status = #{status}
+    </select>
+
+    <select id="pagination" resultMap="userMap">
+        select id,
+        <include refid="columns"/>
+        from users where status=#{status} order by id desc limit #{offset},#{limit}
+    </select>
+
+    <select id="countByTypes" resultType="long">
+        select count(1) from users
+        <if test="list.size()!=0">
+            where type in
+            <foreach collection="list" open="(" separator=","
+                     close=")" item="type">
+                #{type}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="countByType" resultType="long">
+        select count(1) from users
+        <if test="type!=null">
+          where type=#{type}
+        </if>
+    </select>
+
+    <select id="findByIds" resultMap="userMap">
+        select id,
+        <include refid="columns"/>
+        from users
+        where id in
+        <foreach collection="list" open="(" separator=","
+                 close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="countAll" resultType="long">
+        select count(1) from users
+    </select>
+
+    <select id="findAll" resultMap="userMap">
+        select id, <include refid="columns"/>
+        from users
+        order by id desc
+        limit #{offset},#{limit}
+    </select>
+</mapper>

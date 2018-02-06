@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- Application name -->
+    <dubbo:application name="#{app.dubboApp}"/>
+
+    <!-- registry address, used for service to register itself -->
+    <dubbo:registry address="#{app.dubboRegistry}"/>
+
+    <!--user service-->
+    <dubbo:reference interface="com.nowbook.user.service.AccountService" id="accountService" timeout="3000"/>
+    <dubbo:reference interface="com.nowbook.user.service.AddressService" id="addressService"/>
+    <dubbo:reference interface="com.nowbook.user.service.UserProfileService" id="userProfileService"/>
+    <dubbo:reference interface="com.nowbook.user.service.UserExtraService" id="userExtraService"/>
+    <dubbo:reference interface="com.nowbook.user.service.UserAccountSummaryService" id="userAccountSummaryService"/>
+    <dubbo:reference interface="com.nowbook.user.service.ImageService" id="imageService"/>
+
+    <!--item service-->
+    <dubbo:reference interface="com.nowbook.item.service.ItemIndexService" id="itemIndexService"/>
+    <dubbo:reference interface="com.nowbook.item.service.ItemSearchService" id="itemSearchService"/>
+    <dubbo:reference interface="com.nowbook.item.service.ItemService" id="itemService"/>
+    <dubbo:reference interface="com.nowbook.item.service.DefaultItemService" id="defaultItemService"/>
+    <dubbo:reference interface="com.nowbook.item.service.BrandService" id="brandService"/>
+    <dubbo:reference interface="com.nowbook.item.service.ItemBundleService" id="itemBundleService"/>
+    <dubbo:reference interface="com.nowbook.item.service.TitleKeywordService" id="titleKeywordService"/>
+
+    <!--shop service-->
+    <dubbo:reference interface="com.nowbook.shop.service.ShopService" id="shopService"/>
+    <dubbo:reference interface="com.nowbook.shop.service.ItemTagService" id="itemTagService"/>
+    <dubbo:reference interface="com.nowbook.shop.service.ShopCategoryService" id="shopCategoryService"/>
+    <dubbo:reference interface="com.nowbook.shop.service.ShopExtraService" id="shopExtraService" timeout="5000" retries="0"/>
+    <dubbo:reference interface="com.nowbook.shop.service.ShopGiftSmsInfoService" id="shopGiftSmsInfoService"/>
+
+    <!--trade service-->
+    <dubbo:reference interface="com.nowbook.trade.service.CartService" id="cartService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.OrderQueryService" id="orderQueryService" timeout="5000"/>
+    <dubbo:reference interface="com.nowbook.trade.service.OrderWriteService" id="orderWriteService" timeout="10000"/>
+    <dubbo:reference interface="com.nowbook.trade.service.UserTradeInfoService" id="userTradeInfoService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.OrderCommentService" id="orderCommentService" timeout="5000"/>
+    <dubbo:reference interface="com.nowbook.trade.service.FreightModelService" id="freightModelService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.FreightCountService" id="freightCountService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.LogisticsRevertService" id="logisticsRevertService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.UserVatInvoiceService" id="userVatInvoiceService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.DeliveryMethodService" id="deliveryMethodService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.ExpressInfoService" id="expressInfoService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.InstallInfoService" id="installInfoService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.OrderLogisticsInfoService" id="orderLogisticsInfoService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.OrderInstallInfoService" id="orderInstallInfoService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.OrderJobOverDayService" id="orderJobOverDayService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.OrderJobOverDayConfigService" id="orderJobOverDayConfigService"/>
+
+    <!-- nb service -->
+    <dubbo:reference interface="com.nowbook.rlt.settle.service.AlipayCashService" id="alipayCashService"/>
+    <dubbo:reference interface="com.nowbook.rlt.settle.service.OrderAlipayCashService" id="orderAlipayCashService"/>
+    <dubbo:reference interface="com.nowbook.rlt.settle.service.DailySettlementService" id="dailySettlementService"/>
+    <dubbo:reference interface="com.nowbook.rlt.settle.service.DepositAccountService" id="depositAccountService"/>
+    <dubbo:reference interface="com.nowbook.rlt.settle.service.DepositFeeService" id="depositFeeService"/>
+    <dubbo:reference interface="com.nowbook.rlt.settle.service.SellerSettlementService" id="sellerSettlementService"/>
+    <dubbo:reference interface="com.nowbook.rlt.settle.service.SettlementService" id="settlementService" timeout="5000"/>
+    <dubbo:reference interface="com.nowbook.rlt.settle.service.SettlementJobService" id="settlementJobService"/>
+    <dubbo:reference interface="com.nowbook.rlt.presale.service.PreSaleService" id="preSaleService"/>
+    <dubbo:reference interface="com.nowbook.rlt.grid.service.GridService" id="gridService"/>
+    <dubbo:reference interface="com.nowbook.rlt.settle.service.DepositFeeCashService" id="depositFeeCashService"/>
+
+    <dubbo:reference interface="com.nowbook.rlt.grid.service.BrandsSellersService" id="brandsSellersService"/>
+    <dubbo:reference interface="com.nowbook.rlt.grid.service.ShopAuthorizeInfoService" id="shopAuthorizeInfoService" />
+
+    <!-- purify service -->
+    <dubbo:reference interface="com.nowbook.rlt.purify.service.PurifySeriesService" id="purifySeriesService"/>
+    <dubbo:reference interface="com.nowbook.rlt.purify.service.PurifyCategoryService" id="purifyCategoryService"/>
+    <dubbo:reference interface="com.nowbook.rlt.purify.service.PurifyAssemblyService" id="purifyAssemblyService"/>
+    <dubbo:reference interface="com.nowbook.rlt.purify.service.PurifyRelationService" id="purifyRelationService"/>
+    <dubbo:reference interface="com.nowbook.rlt.purify.service.PurifyPageService" id="purifyPageService"/>
+
+    <!-- coupon related service -->
+    <dubbo:reference interface="com.nowbook.rlt.coupon.service.CouponService" id="couponService"/>
+    <dubbo:reference interface="com.nowbook.rlt.coupon.service.CouponUsageService" id="couponUsageService"/>
+
+    <dubbo:reference interface="com.nowbook.rlt.code.service.ActivityBindService" id="activityBindService" timeout="10000"/>
+    <dubbo:reference interface="com.nowbook.rlt.code.service.CodeUsageService" id="codeUsageService" timeout="10000"/>
+    <dubbo:reference interface="com.nowbook.rlt.code.service.ActivityDefinitionService" id="activityDefinitionService" timeout="10000"/>
+    <dubbo:reference interface="com.nowbook.rlt.code.service.ActivityCodeService" id="activityCodeService" timeout="10000"/>
+
+    <!-- spu bundle-->
+    <dubbo:reference interface="com.nowbook.item.service.SpuBundleService" id="spuBundleService"/>
+
+    <!-- channel shop -->
+    <dubbo:reference interface="com.nowbook.shop.service.ChannelShopsService" id="channelShopsService"/>
+
+
+    <!-- brand related service -->
+    <dubbo:reference interface="com.nowbook.brand.service.BrandClubService" id="brandClubService"/>
+    <dubbo:reference interface="com.nowbook.brand.service.BrandClubSlideService" id="brandClubSlideService"/>
+    <dubbo:reference interface="com.nowbook.brand.service.BrandRegisterService" id="brandRegisterService"/>
+    <dubbo:reference interface="com.nowbook.brand.service.BrandRlService" id="brandRlService"/>
+    <dubbo:reference interface="com.nowbook.brand.service.BrandUserAnnouncementService" id="brandUserAnnouncementService"/>
+    <dubbo:reference interface="com.nowbook.brand.service.BrandClubTypeService" id="brandClubTypeService"/>
+    <dubbo:reference interface="com.nowbook.brand.service.BrandClubProductService" id="brandClubProductService"/>
+    <dubbo:reference interface="com.nowbook.brand.service.BrandClubProductTypeService" id="brandClubProductTypeService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.LogisticsInfoService" id="logisticsInfoService"/>
+
+    <!-- coupons related service -->
+    <dubbo:reference interface="com.nowbook.coupons.service.CouponsNbService" id="couponsNbService"/>
+    <dubbo:reference interface="com.nowbook.coupons.service.LqCouponService" id="lqCouponService"/>
+    <dubbo:reference interface="com.nowbook.coupons.service.NbCouOrderItemService" id="nbCouOrderItemService"/>
+    <dubbo:reference interface="com.nowbook.coupons.service.NbCouUserService" id="nbCouUserService"/>
+    <dubbo:reference interface="com.nowbook.coupons.service.CouponsItemListService" id="couponsItemListService" />
+    <dubbo:reference interface="com.nowbook.coupons.service.CouponsManageService" id="couponsManageService" />
+
+    <!-- api related service -->
+    <dubbo:reference interface="com.nowbook.trade.service.OrdersPopularizeService" id="ordersPopularizeService"/>
+    <dubbo:reference interface="com.nowbook.third.service.ThirdPartLoginService" id="thirdPartLoginService"/>
+
+	<!-- brand shopgift service -->
+    <dubbo:reference interface="com.nowbook.arrivegift.service.ReserveSmsConfigService" id="reserveSmsConfigService"/>
+    <dubbo:reference interface="com.nowbook.arrivegift.service.ReserveSmsInfosService" id="reserveSmsInfosService"/>
+    <dubbo:reference interface="com.nowbook.arrivegift.service.ShopGiftConfigService" id="shopGiftConfigService"/>
+    <dubbo:reference interface="com.nowbook.arrivegift.service.ExperinceService" id="experinceService"/>
+
+    <!-- 晒单-->
+    <dubbo:reference interface="com.nowbook.trade.service.BaskOrderService" id="baskOrderService"/>
+
+    <!-- collected related -->
+    <dubbo:reference interface="com.nowbook.collect.service.CollectedItemService" id="collectedItemService"/>
+    <dubbo:reference interface="com.nowbook.collect.service.CollectedShopService" id="collectedShopService"/>
+
+
+    <!-- SMS config service -->
+    <dubbo:reference interface="com.nowbook.brand.service.SmsConfigService" id="smsConfigService"/>
+
+    <!-- buying activity -->
+    <dubbo:reference interface="com.nowbook.rlt.buying.service.BuyingActivityDefinitionService" id="buyingActivityDefinitionService" timeout="10000"/>
+    <dubbo:reference interface="com.nowbook.rlt.buying.service.BuyingTempOrderService" id="buyingTempOrderService"/>
+    <dubbo:reference interface="com.nowbook.rlt.buying.service.BuyingOrderRecordService" id="buyingOrderRecordService"/>
+    <dubbo:reference interface="com.nowbook.rlt.buying.service.BuyingItemService" id="buyingItemService"/>
+
+    <!-- 网签 -->
+    <dubbo:reference interface="com.nowbook.agreements.service.PreAuthorizationDepositOrderService" id="preAuthorizationDepositOrderService" check="false"/>
+
+    <dubbo:reference interface="com.nowbook.rlt.predeposit.service.PreDepositService" id="preDepositService"/>
+    <!-- 短链接-->
+    <dubbo:reference interface="com.nowbook.rlt.popularizeurl.service.PopularizeUrlService" id="popularizeUrlService" />
+
+</beans>

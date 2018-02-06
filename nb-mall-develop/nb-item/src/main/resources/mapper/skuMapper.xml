@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+<mapper namespace="Sku">
+    <resultMap id="SkuMap" type="Sku">
+        <id property="id" column="id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="price" column="price"/>
+        <result property="stock" column="stock"/>
+        <result property="image" column="image"/>
+        <result property="attributeKey1" column="attribute_key1"/>
+        <result property="attributeName1" column="attribute_name1"/>
+        <result property="attributeValue1" column="attribute_value1"/>
+        <result property="attributeKey2" column="attribute_key2"/>
+        <result property="attributeName2" column="attribute_name2"/>
+        <result property="attributeValue2" column="attribute_value2"/>
+        <result property="outerId" column="outer_id"/>
+        <result property="model" column="model"/>
+        <!-- 按会员等级设置价格 -->
+        <result property="quasiAngelPrice" column="quasi_angel_price"/>
+        <result property="angelPrice" column="angel_price"/>
+        <result property="goldPrice" column="gold_price"/>
+        <result property="platinumPrice" column="platinum_price"/>
+        <result property="blackPrice" column="black_price"/>
+        <result property="partnerPrice" column="partner_price"/>
+        <result property="comPrice" column="com_price"/>
+        <result property="purchasePrice" column="purchase_price"/>
+        <result property="sellingPrice" column="selling_price"/>
+        <result property="angelRecommendPrice" column="angel_recommend_price"/>
+        <result property="priceType" column="price_type"/>
+        <result property="customPrice" column="custom_price"/>
+
+    </resultMap>
+
+    <sql id="columns">
+        item_id, price, stock, image,attribute_key1, attribute_name1, attribute_value1,attribute_key2,attribute_name2,
+        attribute_value2, outer_id, model,quasi_angel_price,angel_price,gold_price,platinum_price,black_price,partner_price,com_price,purchase_price,selling_price,
+        angel_recommend_price,price_type,custom_price
+    </sql>
+
+    <select id="findById" parameterType="long" resultMap="SkuMap">
+        SELECT id,
+        <include refid="columns"/>
+        FROM skus WHERE id=#{id}
+    </select>
+
+    <select id="findByItemId" parameterType="long" resultMap="SkuMap">
+        SELECT id,
+        <include refid="columns"/>
+        FROM skus WHERE item_id =#{itemId}
+        ORDER BY id ASC
+    </select>
+
+    <select id="findByItemIds" parameterType="list" resultMap="SkuMap">
+        SELECT id,
+        <include refid="columns"/>
+        FROM skus WHERE item_id IN
+        <foreach collection="list" open="(" separator="," close=")"
+                 item="itemId">
+            #{itemId}
+        </foreach>
+    </select>
+
+    <select id="findByIds" resultMap="SkuMap">
+        SELECT id,
+        <include refid="columns"/>
+        FROM skus WHERE id IN
+        <foreach collection="list" open="(" separator=","
+                 close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="findSkuByAttributeValuesAndItemId" resultMap="SkuMap">
+        SELECT id,
+        <include refid="columns"/>
+        FROM skus WHERE
+        item_id=#{itemId}
+        <if test="attributeValue1!=null">and attribute_value1=#{attributeValue1}</if>
+        <if test="attributeValue2!=null">and attribute_value2=#{attributeValue2}</if>
+    </select>
+
+    <insert id="create" parameterType="Sku" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO skus (<include refid="columns"/>) VALUES (#{itemId},#{price},#{stock},#{image},#{attributeKey1},
+        #{attributeName1},#{attributeValue1},#{attributeKey2},#{attributeName2},#{attributeValue2},#{outerId},#{model},
+        #{quasiAngelPrice},#{angelPrice},#{goldPrice},#{platinumPrice},#{blackPrice},#{partnerPrice},#{comPrice},#{purchasePrice},
+        #{sellingPrice},#{angelRecommendPrice},#{priceType},#{customPrice})
+    </insert>
+
+    <!--<insert id="batchInsert" parameterType="Sku" useGeneratedKeys="true" keyProperty="id">
+        <selectKey resultType="long" keyProperty="id" order="BEFORE">
+            SELECT
+            LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO skus (<include refid="columns"/>) VALUES
+        <foreach collection="list" item="sku" index="index" separator="," >
+           (#{sku.itemId},#{sku.price},#{sku.stock},#{sku.image},#{sku.attribute1},#{sku.attribute2})
+        </foreach>
+    </insert>-->
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM skus WHERE id=#{id} <!-- and user_id=#{user_id}-->
+    </delete>
+
+    <delete id="deleteByItemId" parameterType="long">
+        DELETE FROM skus WHERE item_id = #{itemId}
+    </delete>
+
+    <update id="update" parameterType="Sku">
+        UPDATE skus
+        <set>
+            <if test="itemId!=null">item_id=#{itemId},</if>
+            <if test="price!=null">price=#{price},</if>
+            <if test="stock!=null">stock=#{stock},</if>
+            <if test="image!=null">image=#{image},</if>
+            <if test="attributeKey1!=null">attribute_key1=#{attributeKey1},</if>
+            <if test="attributeName1!=null">attribute_name1=#{attributeName1},</if>
+            <if test="attributeValue1!=null">attribute_value1=#{attributeValue1},</if>
+            <if test="attributeKey2!=null">attribute_key2=#{attributeKey2},</if>
+            <if test="attributeName2!=null">attribute_name2=#{attributeName2},</if>
+            <if test="attributeValue2!=null">attribute_value2=#{attributeValue2},</if>
+            <if test="outerId!=null">outer_id=#{outerId},</if>
+            <if test="model!=null">model=#{model},</if>
+
+            <if test="quasiAngelPrice!=null">quasi_angel_price=#{quasiAngelPrice},</if>
+            <if test="angelPrice!=null">angel_price=#{angelPrice},</if>
+            <if test="goldPrice!=null">gold_price=#{goldPrice},</if>
+            <if test="platinumPrice!=null">platinum_price=#{platinumPrice},</if>
+            <if test="blackPrice!=null">black_price=#{blackPrice},</if>
+            <if test="partnerPrice!=null">partner_price=#{partnerPrice},</if>
+            <if test="comPrice!=null">com_price=#{comPrice},</if>
+            <if test="purchasePrice!=null">purchase_price=#{purchasePrice},</if>
+            <if test="sellingPrice!=null">selling_price=#{sellingPrice},</if>
+            <if test="angelRecommendPrice!=null">angel_recommend_price=#{angelRecommendPrice},</if>
+            <if test="priceType!=null">price_type=#{priceType},</if>
+            <if test="customPrice!=null">custom_price=#{customPrice},</if>
+        </set>
+        WHERE id=#{id} <!--and user_id=#{user_id}-->
+    </update>
+
+    <update id="changeStock">
+        UPDATE skus SET stock = stock + #{count} WHERE id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,905 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2012 大连锦霖科技有限公司
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>nb-mall</artifactId>
+    <groupId>com.nowbook</groupId>
+    <version>dev</version>
+    <packaging>pom</packaging>
+    <name>nb-mall</name>
+
+    <modules>
+
+        <module>nb-user</module>
+        <module>nb-user-api</module>
+        <module>nb-item</module>
+        <module>nb-item-api</module>
+        <module>nb-trade</module>
+        <module>nb-trade-api</module>
+        <module>nb-admin</module>
+        <module>nb-sms</module>
+        <module>nb-web-common</module>
+        <module>nb-web-ec</module>
+        <module>nb-shop-api</module>
+        <module>nb-shop</module>
+        <module>nb-alipay</module>
+        <module>nb-image</module>
+        <module>nb-restful</module>
+        <module>nb-related</module>
+        <module>nb-related-api</module>
+        <module>nb-open</module>
+        <module>nb-brand</module>
+        <module>nb-brand-api</module>
+        <module>nb-coupons</module>
+        <module>nb-coupons-api</module>
+        <module>nb-configuration</module>
+        <module>nb-sdp-api</module>
+        <module>nb-sdp</module>
+        <module>nb-weixin</module>
+        <module>nb-mall-web</module>
+        <module>nb-unionpay</module>
+        <module>nb-push</module>
+
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <nb.version>2.2.3-SNAPSHOT</nb.version>
+
+        <session.version>1.2.1</session.version>
+        <common.version>2.1</common.version>
+        <category.version>2.0</category.version>
+        <site.version>2.1-SNAPSHOT</site.version>
+        <search.version>2.0</search.version>
+        <api.version>1.2-SNAPSHOT</api.version>
+
+        <spring.version>3.2.6.RELEASE</spring.version>
+        <slf4j.version>1.7.5</slf4j.version>
+        <junit.version>4.11</junit.version>
+        <guava.version>17.0</guava.version>
+        <jsr305.version>2.0.0</jsr305.version>
+        <mybatis.version>3.2.3</mybatis.version>
+        <mybatis-spring.version>1.1.1</mybatis-spring.version>
+        <cglib.version>2.2.2</cglib.version>
+        <commons-dbcp.version>1.4</commons-dbcp.version>
+        <mysql-java.version>5.1.27</mysql-java.version>
+        <h2.version>1.3.174</h2.version>
+        <jackson.version>2.3.2</jackson.version>
+        <validation-api.version>1.1.0.Final</validation-api.version>
+        <hibernate-validator.version>5.0.1.Final</hibernate-validator.version>
+        <commons-fileupload.version>1.3</commons-fileupload.version>
+        <commons-lang.version>2.4</commons-lang.version>
+        <commons-io.version>2.4</commons-io.version>
+        <joda-time.version>2.3</joda-time.version>
+        <jodd-lagarto.version>3.5.1</jodd-lagarto.version>
+
+        <http-request.version>5.6</http-request.version>
+        <xstream.version>1.4.4</xstream.version>
+        <hamcrest.version>1.3</hamcrest.version>
+        <hamcrest-date.version>0.9.5</hamcrest-date.version>
+        <lombok.version>1.16.0</lombok.version>
+        <handlebars.version>1.2.1</handlebars.version>
+        <aspectj.version>1.7.0</aspectj.version>
+        <dozer.version>5.4.0</dozer.version>
+        <jexl.version>1.1</jexl.version>
+        <jedis.version>2.4.2</jedis.version>
+        <cage.version>1.0</cage.version>
+        <logback.version>1.0.13</logback.version>
+        <log4j.version>1.2.17</log4j.version>
+        <servlet-api.version>3.0.1</servlet-api.version>
+        <dubbo.version>2.5.3</dubbo.version>
+        <zkclient.version>0.1</zkclient.version>
+        <powermock.version>1.5.5</powermock.version>
+        <mockito.version>1.9.5</mockito.version>
+        <mail.version>1.4.7</mail.version>
+        <unitils.version>3.3</unitils.version>
+        <dbunit.version>2.2.3</dbunit.version>
+        <jsoup.version>1.7.3</jsoup.version>
+        <catch-exception.version>1.2.0</catch-exception.version>
+        <bcprov.version>1.45</bcprov.version>
+        <iTrusCertAPI.version>2.9.2</iTrusCertAPI.version>
+        <bcmail.version>1.45</bcmail.version>
+        <httpclient.version>4.4.1</httpclient.version>
+        <!-- jwt setting -->
+        <jwt.version>0.7.0</jwt.version>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.6</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <!--<version>1.0.0</version>-->
+                <configuration>
+                </configuration>
+                <executions>
+                    <!-- enable flattening -->
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <!-- ensure proper cleanup -->
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.26</version>
+                <configuration>
+                    <connectors>
+                        <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                            <port>8080</port>
+                            <maxIdleTime>30000</maxIdleTime>
+                        </connector>
+                    </connectors>
+                    <webAppSourceDirectory>${project.build.directory}/${pom.artifactId}-${pom.version}
+                    </webAppSourceDirectory>
+                    <contextPath>/mall</contextPath>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.mojo</groupId>-->
+            <!--<artifactId>flatten-maven-plugin</artifactId>-->
+            <!--<version>1.0.0-beta-2</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <!--log related -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>uk.co.modular-it</groupId>
+            <artifactId>hamcrest-date</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-rsapi-api</artifactId>
+                <version>${api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-alipay</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-configuration</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-user</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-user-api</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-item</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-item-api</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-sdp</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-sdp-api</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-mall-web</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-trade</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-trade-api</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-sms</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-web-common</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-web-ec</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-shop</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-shop-api</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-image</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-restful</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-related</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-related-api</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-open</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-brand</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-brand-api</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-coupons</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-coupons-api</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-common</artifactId>
+                <version>${common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-category</artifactId>
+                <version>${category.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-category-api</artifactId>
+                <version>${category.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-site</artifactId>
+                <version>${site.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-site-api</artifactId>
+                <version>${site.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-search</artifactId>
+                <version>${search.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-session</artifactId>
+                <version>${session.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-kjtpay</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-kjtpay-api</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-unionpay</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowbook</groupId>
+                <artifactId>nb-push</artifactId>
+                <version>${nb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>1.13</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+                <exclusions>
+                    <!-- Exclude Commons Logging in favor of SLF4j -->
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cage</groupId>
+                <artifactId>cage</artifactId>
+                <version>${cage.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>javax.mail-api</artifactId>
+                <version>1.5.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>${mail.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.jknack</groupId>
+                <artifactId>handlebars</artifactId>
+                <version>${handlebars.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>${jsr305.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+            <!--log related -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${dubbo.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.sgroschupf</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>${zkclient.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib-nodep</artifactId>
+                <version>${cglib.version}</version>
+            </dependency>
+
+            <!--  datasource pool -->
+            <dependency>
+                <groupId>commons-dbcp</groupId>
+                <artifactId>commons-dbcp</artifactId>
+                <version>${commons-dbcp.version}</version>
+            </dependency>
+            <!-- jdbc driver -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-java.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+                <!--<scope>test</scope>-->
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-jdbc</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- PERSISTENCE end -->
+
+            <!-- Jackson JSON Processor -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>${xstream.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-guava</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+
+
+            <!-- JSR 303 with Hibernate Validator -->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
+            </dependency>
+
+            <!-- Joda Time Library -->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jodd</groupId>
+                <artifactId>jodd-lagarto</artifactId>
+                <version>${jodd-lagarto.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons-lang.version}</version>
+            </dependency>
+            <!-- File Upload -->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
+            </dependency>
+            <!--search end-->
+
+            <dependency>
+                <groupId>commons-jexl</groupId>
+                <artifactId>commons-jexl</artifactId>
+                <version>${jexl.version}</version>
+            </dependency>
+            <!--perf4j end -->
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servlet-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- unit test -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-core</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.unitils</groupId>
+                <artifactId>unitils-dbunit</artifactId>
+                <version>${unitils.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.dbunit</groupId>
+                        <artifactId>dbunit</artifactId>
+                    </exclusion>
+                </exclusions>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.dbunit</groupId>
+                <artifactId>dbunit</artifactId>
+                <version>${dbunit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.unitils</groupId>
+                <artifactId>unitils-database</artifactId>
+                <version>${unitils.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.unitils</groupId>
+                <artifactId>unitils-spring</artifactId>
+                <version>${unitils.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-core</artifactId>
+                <version>${hamcrest.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-library</artifactId>
+                <version>${hamcrest.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>uk.co.modular-it</groupId>
+                <artifactId>hamcrest-date</artifactId>
+                <version>${hamcrest-date.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.googlecode.catch-exception</groupId>
+                <artifactId>catch-exception</artifactId>
+                <version>${catch-exception.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsoup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.kevinsawicki</groupId>
+                <artifactId>http-request</artifactId>
+                <version>${http-request.version}</version>
+            </dependency>
+
+
+            <!--kjt config -->
+            <dependency>
+                <groupId>iTrusCertAPI_2.9.2_jdk15</groupId>
+                <artifactId>iTrusCertAPI_2.9.2_jdk15</artifactId>
+                <version>${iTrusCertAPI.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>bcprov-jdk15-1.45</groupId>
+                <artifactId>bcprov-jdk15-1.45</artifactId>
+                <version>${bcprov.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>bcmail-jdk15-1.45</groupId>
+                <artifactId>bcmail-jdk15-1.45.jar</artifactId>
+                <version>${bcmail.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+
+
+    <profiles>
+        <profile>
+            <id>nowbook</id>
+            <properties>
+                <repo-id>nowbook</repo-id>
+                <release-repo-name>nowbook release repository</release-repo-name>
+                <release-repo-url>http://repo.nowbook.com/content/repositories/releases/</release-repo-url>
+                <snapshot-repo-name>nowbook snapshot repository</snapshot-repo-name>
+                <snapshot-repo-url>http://repo.nowbook.com/content/repositories/snapshots/</snapshot-repo-url>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>nb-api</id>
+            <properties>
+                <repo-id>nb-api</repo-id>
+                <release-repo-name>nb api release repository</release-repo-name>
+                <release-repo-url>http://repos.aimymy.com:8081/nexus/content/repositories/nb-api-release/</release-repo-url>
+                <snapshot-repo-name>nb api snapshot repository</snapshot-repo-name>
+                <snapshot-repo-url>http://repos.aimymy.com:8081/nexus/content/repositories/nb-api-snapshots/</snapshot-repo-url>
+            </properties>
+        </profile>
+    </profiles>
+</project>

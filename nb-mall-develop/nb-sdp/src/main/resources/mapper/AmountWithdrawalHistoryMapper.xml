@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="AmountWithdrawalHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.nowbook.sdp.model.AmountWithdrawalHistory" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="distributors_id" property="distributorsId" jdbcType="BIGINT" />
+    <result column="oper_time" property="operationTime" jdbcType="TIMESTAMP" />
+    <result column="money" property="money" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+    <result column="bank_account_number" property="bankAccountNumber" jdbcType="VARCHAR" />
+    <result column="bank_serial_number" property="bankSerialNumber" jdbcType="VARCHAR" />
+    <result column="bank_sys_time" property="bankSysTime" jdbcType="TIMESTAMP" />
+    <association property="distributionInfo" javaType="com.nowbook.sdp.model.DistributionInfo">
+      <id column="distributionInfo_id" property="id" jdbcType="BIGINT" />
+      <result property="userId" column="user_id"/>
+      <result property="parentIds" column="parent_ids"/>
+      <result property="shopName" column="shop_name"/>
+      <result property="openShopTime" column="open_shop_time"/>
+      <result property="openStatus" column="open_status"/>
+      <result property="userRealName" column="user_real_name"/>
+      <result property="mobile" column="mobile_number"/>
+      <result property="qqNumber" column="qq_number"/>
+      <result property="categories" column="categories"/>
+      <result property="step" column="step"/>
+    </association>
+  </resultMap>
+  <resultMap id="AmountWithdrawalHistoryMap" type="com.nowbook.sdp.model.AmountWithdrawalHistoryForQuery" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="amount_status" property="amountStatus" jdbcType="VARCHAR" />
+    <result column="operation_time" property="operationTime"  />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, distributors_id, operation_time,money,pay_type,bank_account_number,bank_serial_number,bank_sys_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from amount_withdrawal_history
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from amount_withdrawal_history
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.nowbook.sdp.model.AmountWithdrawalHistory" useGeneratedKeys="true" keyProperty="id">
+    insert into amount_withdrawal_history (distributors_id, oper_time, money,pay_type,bank_account_number,bank_serial_number,bank_sys_time)
+    values (#{distributorsId,jdbcType=BIGINT}, #{operationTime,jdbcType=TIMESTAMP}, #{money,jdbcType=VARCHAR},
+      #{payType,jdbcType=VARCHAR},#{bankAccountNumber,jdbcType=VARCHAR},#{bankSerialNumber,jdbcType=VARCHAR},#{bankSysTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nowbook.sdp.model.AmountWithdrawalHistory" useGeneratedKeys="true" keyProperty="id">
+    insert into amount_withdrawal_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="distributorsId != null" >
+        distributors_id,
+      </if>
+      <if test="operationTime != null" >
+        operation_time,
+      </if>
+      <if test="withdrawalInformation != null" >
+        withdrawal_information,
+      </if>
+      <if test="amountStatus != null" >
+        amount_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="distributorsId != null" >
+        #{distributorsId,jdbcType=BIGINT},
+      </if>
+      <if test="operationTime != null" >
+        #{operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="withdrawalInformation != null" >
+        #{withdrawalInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="amountStatus != null" >
+        #{amountStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nowbook.sdp.model.AmountWithdrawalHistory" >
+    update amount_withdrawal_history
+    <set >
+      <if test="distributorsId != null" >
+        distributors_id = #{distributorsId,jdbcType=BIGINT},
+      </if>
+      <if test="operationTime != null" >
+        operation_time = #{operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="withdrawalInformation != null" >
+        withdrawal_information = #{withdrawalInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="amountStatus != null" >
+        amount_status = #{amountStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nowbook.sdp.model.AmountWithdrawalHistory" >
+    update amount_withdrawal_history
+    set distributors_id = #{distributorsId,jdbcType=BIGINT},
+      operation_time = #{operationTime,jdbcType=TIMESTAMP},
+      withdrawal_information = #{withdrawalInformation,jdbcType=VARCHAR},
+      amount_status = #{amountStatus,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="amountWithdrawalHistoryCount" parameterType="map" resultType="long">
+    select count(1)
+    from  amount_withdrawal_history awh
+    INNER JOIN distributors d
+    on awh.distributors_id = d.id
+    where 1=1
+    <if test="shopName!=null and shopName!=''">
+      and d.shop_name = #{shopName}
+    </if>
+  </select>
+  <select id="amountWithdrawalHistory" parameterType="map" resultMap="AmountWithdrawalHistoryMap">
+    select awh.id,d.shop_name,awh.oper_time operation_time
+    from  amount_withdrawal_history awh
+    INNER JOIN distributors d
+    on awh.distributors_id = d.id
+    where 1=1
+    <if test="shopName!=null and shopName!=''">
+      and d.shop_name = #{shopName}
+    </if>
+    limit #{offset},#{limit}
+  </select>
+
+
+  <select id="withdrawalCount" parameterType="map" resultType="long">
+    select count(1)
+    from  amount_withdrawal_history awh
+    INNER JOIN distributors d
+    on awh.distributors_id = d.id
+    where 1=1
+    <if test="distributionInfo.id!=null and distributionInfo.id!=''">
+      and d.id = #{distributionInfo.id}
+    </if>
+    <if test="distributionInfo.shopName!=null and distributionInfo.shopName!=''">
+      and d.shop_name = #{distributionInfo.shopName}
+    </if>
+  </select>
+  <select id="withdrawal" parameterType="com.nowbook.sdp.model.AmountWithdrawalHistory" resultMap="BaseResultMap">
+    select awh.*
+    ,d.id distributionInfo_id,d.user_id,d.parent_ids,d.shop_name,d.open_shop_time,d.open_status,d.user_real_name,d.mobile_number,d.qq_number,d.categories,d.step
+    from  amount_withdrawal_history awh
+    INNER JOIN distributors d
+    on awh.distributors_id = d.id
+    where 1=1
+
+    <if test="distributionInfo.id!=null and distributionInfo.id!=''">
+      and d.id = #{distributionInfo.id}
+    </if>
+    <if test="distributionInfo.shopName!=null and distributionInfo.shopName!=''">
+      and d.shop_name = #{distributionInfo.shopName}
+    </if>
+    limit #{offset},#{limit}
+  </select>
+
+
+
+
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+<mapper namespace="NbBrand">
+    <resultMap id="NbBrandMap" type="NbBrand">
+        <id property="id" column="id"/>
+        <result property="brandName" column="name"/>
+    </resultMap>
+
+
+    <select id="findBrandId" resultMap ="NbBrandMap" parameterType="NbBrand">
+        select id from brands where name=#{brandName}
+    </select>
+
+    <select id="countBrand" parameterType="NbBrand" resultType="int">
+        select count(*)
+        from brands where name=#{brandName}
+    </select>
+
+    <select id="isExistsBrand" parameterType="NbBrand" resultType="int">
+        select count(*)
+        from brand_club where brand_name=#{brandName} and status = 1;
+    </select>
+
+    <select id="vailProduct" parameterType="Map" resultType="int">
+      select count(*) from brand_club inner join brand_club_product on brand_club.brand_id = brand_club_product.brandClupId
+       where brand_club.brand_user_id = #{userId} and brand_club_product.productId =#{productId};
+    </select>
+    <select id="vailBrand" parameterType="Map" resultType="int">
+      select count(*) from items where brand_id = (select brand_outer_id from brand_club where brand_user_id = #{userId}) and items.id = #{productId};
+    </select>
+</mapper>

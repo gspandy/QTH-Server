@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="UserWalletSummaryMapper" >
+    <resultMap id="UserWalletSummaryMap" type="com.nowbook.sdp.model.UserWalletSummary" >
+        <id column="id" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="type" property="type"/>
+        <result column="money" property="money"/>
+        <result column="other_money" property="otherMoney"/>
+        <result column="other_id" property="otherId"/>
+        <result column="level" property="level"/>
+        <result column="other_level" property="otherLevel"/>
+        <result column="pay_type" property="payType"/>
+        <result column="pay_code" property="payCode"/>
+        <result column="real_name" property="realName"/>
+        <result column="mobile" property="mobile"/>
+        <result column="nick" property="nick"/>
+        <result column="total" property="total"/>
+        <result column="create_at" property="createAt"/>
+        <result column="update_at" property="updateAt"/>
+    </resultMap>
+
+    <sql id="columns" >
+        user_id, type, money, other_id,other_money,level,other_level,pay_type,pay_code,create_at, update_at
+    </sql>
+
+    <sql id="join_columns" >
+        a.id AS "id",
+        a.user_id AS "user_id",
+        a.type AS "type",
+        a.money AS "money",
+        a.other_money AS "other_money",
+        a.other_id AS "other_id",
+        a.level AS "level",
+        a.other_level AS "other_level",
+        a.pay_type AS "pay_type",
+        a.pay_code AS "pay_code",
+        a.create_at AS "create_at",
+        a.update_at AS " update_at",
+        b.mobile AS "mobile",
+        c.real_name AS "real_name",
+        d.nick AS "nick"
+    </sql>
+
+    <select id="selectBy" parameterType="com.nowbook.sdp.model.UserWalletSummary" resultMap="UserWalletSummaryMap">
+        SELECT <include refid="join_columns"/>
+        FROM user_wallet_summary a
+        LEFT JOIN users b ON a.other_id = b.id
+        LEFT JOIN user_profiles c ON a.other_id = c.user_id
+        LEFT JOIN user_extras d ON a.other_id = d.user_id
+        WHERE a.user_id = #{userId} AND a.type >=#{type1} AND #{type2}>=a.type
+        ORDER BY a.create_at DESC
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectByPayCode" parameterType="com.nowbook.sdp.model.UserWalletSummary" resultMap="UserWalletSummaryMap">
+        SELECT <include refid="columns"/>
+        FROM user_wallet_summary
+        WHERE pay_code = #{payCode} AND pay_type = #{payType}
+    </select>
+
+    <select id="selectNum" parameterType="com.nowbook.sdp.model.UserWalletSummary" resultMap="UserWalletSummaryMap">
+        SELECT count(*) AS "total"
+        FROM user_wallet_summary a
+        LEFT JOIN users b ON a.other_id = b.id
+        LEFT JOIN user_profiles c ON a.other_id = c.user_id
+        LEFT JOIN user_extras d ON a.other_id = d.user_id
+        WHERE a.user_id = #{userId} AND a.type >=#{type1} AND #{type2}>=a.type
+    </select>
+
+    <insert id="insert" parameterType="com.nowbook.sdp.model.UserWalletSummary" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_wallet_summary (<include refid="columns"/>)
+        VALUES (#{userId}, #{type}, #{money},#{otherId},#{otherMoney},#{level},#{otherLevel},#{payType},#{payCode},now(),now())
+    </insert>
+    <select id="selectByUserIdFirst" parameterType="com.nowbook.sdp.model.UserWalletSummary" resultMap="UserWalletSummaryMap">
+        SELECT <include refid="join_columns"/>
+        FROM user_wallet_summary a
+        LEFT JOIN users b ON a.other_id = b.id
+        LEFT JOIN user_profiles c ON a.other_id = c.user_id
+        LEFT JOIN user_extras d ON a.other_id = d.user_id
+        WHERE a.user_id = #{userId}
+        ORDER BY a.create_at DESC
+        limit #{offset},#{limit}
+    </select>
+
+</mapper>

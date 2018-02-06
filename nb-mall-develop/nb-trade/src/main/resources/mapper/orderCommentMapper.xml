@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+<mapper namespace="OrderComment">
+    <resultMap id="orderCommentMap" type="OrderComment">
+        <id property="id" column="id"/>
+        <result property="orderType" column="order_type"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="buyerId" column="buyer_id"/>
+        <result property="orderItemId" column="order_item_id"/>
+        <result property="rQuality" column="r_quality"/>
+        <result property="rDescribe" column="r_describe"/>
+        <result property="rService" column="r_service"/>
+        <result property="rExpress" column="r_express"/>
+        <result property="comment" column="comment"/>
+        <result property="avatar" column="avatar"/>
+        <result property="name" column="name"/>
+        <result property="commentReply" column="comment_reply"/>
+        <result property="isBaskOrder" column="is_bask_order"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="tradeQuantity" column="trade_quantity"/>
+    </resultMap>
+
+    <sql id="columns">
+        order_type, shop_id, item_id, buyer_id, order_item_id, r_quality, r_describe, r_service, r_express, comment,comment_reply, is_bask_order,created_at, updated_at
+    </sql>
+    <sql id="column">
+        n.order_type,
+        n.shop_id,
+        n.item_id,
+        n.buyer_id,
+        n.order_item_id,
+        n.r_quality,
+        n.r_describe,
+        n.r_service,
+        n.r_express,
+        n.comment,
+        n.comment_reply,
+        n.is_bask_order,
+        n.created_at,
+        n.updated_at,
+        e.avatar AS "avatar",
+        u.mobile AS "name"
+    </sql>
+
+    <select id="countOf" parameterType="map" resultType="long">
+        select count(1)
+        from nb_comments
+        <where>
+            <if test="itemId!=null">
+                item_id = #{itemId}
+            </if>
+            <if test="buyerId!=null">
+                and buyer_id = #{buyerId}
+            </if>
+            <if test="shopId!=null">
+                and shop_id = #{shopId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findBy" parameterType="map" resultMap="orderCommentMap">
+        select n.id,
+        <include refid="column"/>
+        from nb_comments n
+        LEFT JOIN user_extras e ON n.buyer_id = e.user_id
+        LEFT JOIN users u ON n.buyer_id = u.id
+        <where>
+            <if test="itemId!=null">
+                n.item_id=#{itemId}
+            </if>
+            <if test="buyerId!=null">
+                and n.buyer_id=#{buyerId}
+            </if>
+            <if test="shopId!=null">
+                and n.shop_id=#{shopId}
+            </if>
+        </where>
+        order by n.id desc limit #{offset},#{limit}
+    </select>
+
+    <insert id="create" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+        insert into nb_comments (<include refid="columns"/>) values (
+        #{orderType}, #{shopId}, #{itemId}, #{buyerId}, #{orderItemId},
+        #{rQuality}, #{rDescribe}, #{rService}, #{rExpress}, #{comment},
+        #{commentReply},#{isBaskOrder}, now(), now())
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="orderCommentMap">
+        select id, <include refid="columns"/>
+        from nb_comments where id=#{id};
+    </select>
+
+    <select id="findByOrderId" parameterType="long" resultMap="orderCommentMap">
+        select id, <include refid="columns"/>
+        from nb_comments where order_item_id=#{id};
+    </select>
+
+    <select id="findByBuyerId" parameterType="long" resultMap="orderCommentMap">
+        select id, <include refid="columns"/>
+        from nb_comments where order_item_id=#{buyerId}
+        order by id desc limit #{offset},#{limit}
+    </select>
+
+    <select id="findAnyByOrderItemId" resultMap="orderCommentMap">
+        select id, <include refid="columns"/>
+        from nb_comments
+        where order_item_id in
+        <foreach collection="array" item="range" open="(" separator="," close=")" >
+            #{range}
+        </foreach>
+    </select>
+
+    <select id="findYesterday" resultMap="orderCommentMap">
+        select `id`, <include refid="columns"/>
+        from nb_comments
+        where
+        <if test="shopId!=null">
+            shop_id = #{shopId} and
+        </if>
+        <![CDATA[ created_at >= #{yesterday} and created_at < #{today}]]>
+        order by id asc limit #{offset}, #{limit}
+    </select>
+
+    <select id="findYesterdayData" resultMap="orderCommentMap">
+        select `id`, <include refid="columns"/>
+        from nb_comments
+        where
+        <![CDATA[ created_at >= #{yesterday} and created_at < #{today}]]>
+        order by id asc
+    </select>
+
+    <select id="countOfYesterdayOfShop" resultType="long">
+        select count(1)
+        from nb_comments
+        where
+        <if test="shopId!=null">
+            shop_id = #{shopId} and
+        </if>
+        <![CDATA[ created_at >= #{yesterday} and created_at < #{today}]]>
+    </select>
+
+    <!-- util sql for dump -->
+    <select id="maxId" parameterType="long" resultType="long">
+        select
+        max(id)
+        from  nb_comments
+        <if test="shopId!=null">
+            where shop_id = #{shopId}
+        </if>
+    </select>
+
+    <!-- for full dump -->
+    <select id="forDump" resultMap="orderCommentMap">
+        select `id`, <include refid="columns"/>
+        from nb_comments
+        where id &lt; #{lastId}
+        <if test="shopId!=null">
+          and shop_id = #{shopId}
+        </if>
+        order by id desc
+        limit #{limit}
+    </select>
+
+    <select id="forExpire" resultMap="orderCommentMap">
+        select order_item_id
+        from nb_comments
+        where id &lt; #{lastId}
+        order by id desc
+        limit #{limit}
+    </select>
+
+    <select id="sumUpForShop" resultMap="orderCommentMap">
+        select
+        sum(r_quality) as r_quality, sum(r_describe) as r_describe,
+        sum(r_service) as r_service, sum(r_express) as r_express, count(1) as trade_quantity
+        from nb_comments
+        where shop_id = #{shopId}
+    </select>
+
+    <select id="sumUpForShopYesterday" resultMap="orderCommentMap">
+        select
+        sum(r_quality) as r_quality, sum(r_describe) as r_describe,
+        sum(r_service) as r_service, sum(r_express) as r_express, count(1) as trade_quantity
+        from nb_comments
+        where shop_id = #{shopId} and <![CDATA[ created_at >= #{yesterday} and created_at < #{today}]]>
+    </select>
+
+    <select id="sumUpForYesterdayGroupByShop" resultMap="orderCommentMap">
+        select
+        sum(r_quality) as r_quality, sum(r_describe) as r_describe,
+        sum(r_service) as r_service, sum(r_express) as r_express, count(1) as trade_quantity,shop_id
+        from nb_comments
+        where
+        <![CDATA[ created_at >= #{yesterday} and created_at < #{today}]]>
+        group by shop_id
+    </select>
+
+
+    <update id="commentReply" parameterType="map">
+        update nb_comments
+        <set>
+            updated_at = now(),
+            <if test="commentReply!=null">comment_reply=#{commentReply},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="setIsBaskOrder" parameterType="long">
+        update nb_comments
+        <set>
+            updated_at = now(),
+            is_bask_order=true
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

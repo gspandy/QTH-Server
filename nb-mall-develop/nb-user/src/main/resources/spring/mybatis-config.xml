@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2012 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+        <!--user related entity-->
+        <typeAlias alias="User" type="com.nowbook.user.model.User"/>
+        <typeAlias alias="UserProfile" type="com.nowbook.user.model.UserProfile"/>
+        <typeAlias alias="Address" type="com.nowbook.user.model.Address"/>
+        <typeAlias alias="UserExtra" type="com.nowbook.user.model.UserExtra"/>
+        <typeAlias alias="UserImage" type="com.nowbook.user.model.UserImage"/>
+        <typeAlias alias="UserQuota" type="com.nowbook.user.model.UserQuota"/>
+        <typeAlias alias="UserAccountSummary" type="com.nowbook.user.model.UserAccountSummary"/>
+        <typeAlias alias="ThirdUser" type="com.nowbook.third.model.ThirdUser"/>
+        <typeAlias alias="UserCost" type="com.nowbook.user.model.UserCost"/>
+    </typeAliases>
+</configuration>

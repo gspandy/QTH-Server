@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- Shop Service here -->
+    <dubbo:reference interface="com.nowbook.shop.service.ShopService" id="shopService" timeout="3000" retries="0"/>
+    <!-- Item Service here -->
+    <dubbo:reference interface="com.nowbook.item.service.ItemService" id="itemService"/>
+    <dubbo:reference interface="com.nowbook.item.service.DefaultItemService" id="defaultItemService" />
+    <!-- User Service here -->
+    <dubbo:reference interface="com.nowbook.user.service.AccountService" id="accountService" timeout="10000" retries="0"/>
+    <dubbo:reference interface="com.nowbook.user.service.AddressService" id="addressService" />
+
+    <!-- Trade Service here -->
+    <dubbo:reference interface="com.nowbook.trade.service.OrderQueryService" id="orderQueryService" timeout="3000" retries="0"/>
+    <dubbo:reference interface="com.nowbook.trade.service.OrderWriteService" id="orderWriteService" />
+    <dubbo:reference interface="com.nowbook.trade.service.OrderCommentService" id="orderCommentService" timeout="3000" retries="0"/>
+    <dubbo:reference interface="com.nowbook.trade.service.UserVatInvoiceService" id="userVatInvoiceService" />
+    <dubbo:reference interface="com.nowbook.trade.service.DeliveryMethodService" id="deliveryMethodService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.UserTradeInfoService" id="userTradeInfoService"/>
+    <dubbo:reference interface="com.nowbook.trade.service.FreightCountService" id="freightCountService"/>
+
+    <dubbo:reference interface="com.nowbook.rlt.popularizeurl.service.PopularizeUrlService" id="popularizeUrlService" />
+    <!--<dubbo:reference interface="GridService" id="gridService"/>-->
+
+</beans>

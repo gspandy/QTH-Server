@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>nb-mall</artifactId>
+        <groupId>com.nowbook</groupId>
+        <version>dev</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>nb-configuration</artifactId>
+    <version>${nb.version}</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+        <build.number>${maven.build.timestamp}</build.number>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-zookeeper</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-web-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-web-ec</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-search</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-site</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-category</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-user-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-item-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-shop-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-trade-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-image</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-related-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.jknack</groupId>
+            <artifactId>handlebars</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <!-- File Upload -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.sgroschupf</groupId>
+            <artifactId>zkclient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>${mybatis-spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.4.5</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Mail supprot -->
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>javax.mail-api</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-brand-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-coupons-api</artifactId>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.nowbook</groupId>-->
+            <!--<artifactId>nb-rsapi-api</artifactId>-->
+        <!--</dependency>-->
+        <!-- 分销 -->
+
+    </dependencies>
+
+    <build>
+        <finalName>nb-configuration</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+        </profile>
+        <profile>
+            <id>prod</id>
+        </profile>
+    </profiles>
+</project>

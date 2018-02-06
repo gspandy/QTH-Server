@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+<mapper namespace="LevelMapper">
+    <resultMap id="LevelMap" type="com.nowbook.sdp.model.Level">
+        <id property="id" column="id"/>
+        <result property="level" column="level"/>
+        <result property="info" column="info"/>
+        <result property="discount" column="discount"/>
+        <result property="needNum" column="need_num"/>
+        <result property="balance" column="balance"/>
+        <result property="advance" column="advance"/>
+        <result property="deposit" column="deposit"/>
+        <result property="bonusDiscount" column="bonus_discount"/>
+        <result property="talentDiscount" column="talent_discount"/>
+        <result property="rechargeFactor" column="recharge_factor"/>
+        <result property="createAt" column="create_at"/>
+        <result property="updateAt" column="update_at"/>
+    </resultMap>
+
+    <sql id="columns">
+         level, info, discount, need_num, balance, advance, deposit,bonus_discount,talent_discount,recharge_factor, create_at, update_at
+    </sql>
+
+    <select id="selectByLevel" parameterType="com.nowbook.sdp.model.Level" resultMap="LevelMap">
+        select id,
+        <include refid="columns"/>
+        from level
+        <where>
+            <if test="level != null and level != ''">
+                AND level = #{level}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.nowbook.sdp.model.Level" useGeneratedKeys="true" keyProperty="id">
+        insert into level (<include refid="columns"/>)
+        values (#{level}, #{info}, #{discount}, #{needNum}, #{balance}, #{advance} ,#{deposit},#{bonusDiscount},#{talentDiscount},#{rechargeFactor},now(), now())
+    </insert>
+
+    <update id="updateById" parameterType="com.nowbook.sdp.model.Level">
+        update level
+        <set>
+            update_at = now(),
+            <if test="level != null">level = #{level},</if>
+            <if test="info != null">info = #{info},</if>
+            <if test="discount != null">discount = #{discount},</if>
+            <if test="needNum != null">need_num = #{needNum},</if>
+            <if test="balance != null">balance = #{balance},</if>
+            <if test="advance != null">advance = #{advance},</if>
+            <if test="deposit != null">deposit = #{deposit},</if>
+            <if test="bonusDiscount != null">bonus_discount = #{bonusDiscount},</if>
+            <if test="talentDiscount != null">talent_discount = #{talentDiscount},</if>
+            <if test="rechargeFactor != null">recharge_factor = #{rechargeFactor},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="selectByUserId" parameterType="Long" resultMap="LevelMap">
+        select l.id,l.level,l.info,l.discount,l.need_num,l.balance,l.advance,l.deposit,l.bonus_discount,l.talent_discount, l.recharge_factor,l.create_at, l.update_at
+        from level l LEFT JOIN  user_level ul ON ul.level=l.level
+        where ul.user_id = #{userId}
+    </select>
+
+</mapper>

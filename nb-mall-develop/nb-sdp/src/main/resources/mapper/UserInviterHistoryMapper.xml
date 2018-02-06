@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+<mapper namespace="UserInviterHistoryMapper">
+    <resultMap id="UserInviterHistoryMap" type="com.nowbook.sdp.model.UserInviterHistory">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="inviter" column="inviter"/>
+        <result property="type" column="type"/>
+        <result property="createAt" column="create_at"/>
+        <result property="updateAt" column="update_at"/>
+    </resultMap>
+
+    <sql id="columns">
+        user_id, inviter, type, create_at, update_at
+    </sql>
+
+    <select id="selectByUserId" parameterType="com.nowbook.sdp.model.UserInviterHistory" resultMap="UserInviterHistoryMap">
+        select id,
+        <include refid="columns"/>
+        from user_inviter_history where user_id = #{userId}
+    </select>
+
+    <insert id="insert" parameterType="com.nowbook.sdp.model.UserInviterHistory" useGeneratedKeys="true" keyProperty="id">
+        insert into user_inviter_history ( <include refid="columns"/>)
+        values (#{userId}, #{inviter}, #{type}, now(), now())
+    </insert>
+</mapper>

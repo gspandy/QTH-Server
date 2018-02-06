@@ -1,0 +1,76 @@
+{
+    "shop": {
+        "_all": {
+            "indexAnalyzer": "ik",
+            "searchAnalyzer": "ik",
+            "term_vector": "no",
+            "store": "false"
+        },
+        "properties": {
+            "id": {
+                "type": "long"
+            },
+            "userId": {
+                "type": "long"
+            },
+            "userName": {
+                "type": "string",
+                "store": "no",
+                "term_vector": "with_positions_offsets",
+                "indexAnalyzer": "ik",
+                "searchAnalyzer": "ik",
+                "include_in_all": "true",
+                "boost": 8
+            },
+            "imageUrl": {
+                "type": "string",
+                "index": "no"
+            },
+            "name": {
+                "type": "string",
+                "store": "no",
+                "term_vector": "with_positions_offsets",
+                "indexAnalyzer": "ik",
+                "searchAnalyzer": "ik",
+                "include_in_all": "true",
+                "boost": 8
+            },
+            "status": {
+                "type": "integer"
+            },
+            "businessId": {
+                "type": "integer"
+            },
+            "province": {
+                "type": "integer"
+            },
+            "city": {
+                "type": "integer"
+            },
+            "region": {
+                "type": "integer"
+            },
+            "provinceName": {
+                "type": "string",
+                "index": "no"
+            },
+            "cityName": {
+                "type": "string",
+                "index": "no"
+            },
+            "regionName": {
+                "type": "string",
+                "index": "no"
+            },
+            "itemCount": {
+                "type": "integer"
+            },
+            "soldQuantity": {
+                "type": "integer"
+            },
+            "sale": {
+                "type": "long"
+            }
+        }
+    }
+}

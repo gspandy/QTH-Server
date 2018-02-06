@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2012 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+        <!--item related entity-->
+        <typeAlias alias="NbCou" type="com.nowbook.coupons.model.NbCou"/>
+        <typeAlias alias="NbCouponsUser" type="com.nowbook.coupons.model.NbCouUser"/>
+        <typeAlias alias="LqCouponView" type="com.nowbook.coupons.model.LqCouponView"/>
+        <typeAlias alias="NbCouponsViews" type="com.nowbook.coupons.model.NbShowCouponView"/>
+        <typeAlias alias="NbCouponsUserView" type="com.nowbook.coupons.model.NbCouUserView"/>
+        <typeAlias alias="NbCouOrderItem" type="com.nowbook.coupons.model.NbCouOrderItem"/>
+
+        <!--商家优惠券优惠券-->
+        <typeAlias alias="NbCouponsItemList" type="com.nowbook.coupons.model.NbCouponsItemList"/>
+    </typeAliases>
+</configuration>

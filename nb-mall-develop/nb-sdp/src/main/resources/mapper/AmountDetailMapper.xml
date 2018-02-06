@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="AmountDetailMapper" >
+    <resultMap id="AmountDetailMap" type="com.nowbook.sdp.model.AmountDetail" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+        <result column="orderItemId" property="order_item_id" jdbcType="VARCHAR" />
+        <result column="get_amount" property="getAmount" jdbcType="DOUBLE" />
+        <result column="distributors_id" property="distributorsId" jdbcType="BIGINT" />
+        <result column="from_distributors_id" property="fromDistributorsId" jdbcType="BIGINT" />
+        <result column="is_complete" property="isComplete" jdbcType="VARCHAR" />
+        <result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
+        <association property="distributionInfo" javaType="com.nowbook.sdp.model.DistributionInfo">
+            <id column="distributionInfo_id" property="id" jdbcType="BIGINT" />
+            <result property="userId" column="user_id"/>
+            <result property="parentIds" column="parent_ids"/>
+            <result property="shopName" column="shop_name"/>
+            <result property="openShopTime" column="open_shop_time"/>
+            <result property="openStatus" column="open_status"/>
+            <result property="userRealName" column="user_real_name"/>
+            <result property="mobile" column="mobile_number"/>
+            <result property="qqNumber" column="qq_number"/>
+            <result property="categories" column="categories"/>
+            <result property="step" column="step"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+    id, order_id, get_amount, distributors_id, is_complete
+  </sql>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from amount_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.nowbook.sdp.model.AmountDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into amount_detail (order_id, get_amount, distributors_id, 
+      is_complete,order_item_id,from_distributors_id,oper_time)
+    values (#{orderId,jdbcType=VARCHAR}, #{getAmount,jdbcType=DOUBLE}, #{distributorsId,jdbcType=BIGINT}, 
+      #{isComplete,jdbcType=VARCHAR},#{orderItemId,jdbcType=VARCHAR},#{fromDistributorsId,jdbcType=BIGINT},#{operTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.nowbook.sdp.model.AmountDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into amount_detail
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="orderId != null" >
+                order_id,
+            </if>
+            <if test="getAmount != null" >
+                get_amount,
+            </if>
+            <if test="distributorsId != null" >
+                distributors_id,
+            </if>
+            <if test="isComplete != null" >
+                is_complete,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="orderId != null" >
+                #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="getAmount != null" >
+                #{getAmount,jdbcType=DOUBLE},
+            </if>
+            <if test="distributorsId != null" >
+                #{distributorsId,jdbcType=BIGINT},
+            </if>
+            <if test="isComplete != null" >
+                #{isComplete,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.nowbook.sdp.model.AmountDetail" >
+        update amount_detail
+        <set >
+            <if test="orderId != null" >
+                order_id = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="getAmount != null" >
+                get_amount = #{getAmount,jdbcType=DOUBLE},
+            </if>
+            <if test="distributorsId != null" >
+                distributors_id = #{distributorsId,jdbcType=BIGINT},
+            </if>
+            <if test="isComplete != null" >
+                is_complete = #{isComplete,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.nowbook.sdp.model.AmountDetail" >
+    update amount_detail
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      get_amount = #{getAmount,jdbcType=DOUBLE},
+      distributors_id = #{distributorsId,jdbcType=BIGINT},
+      is_complete = #{isComplete,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+
+    <select id="amountDetailCount" parameterType="map" resultType="long">
+        select count(1)
+        from amount_detail ad
+        INNER JOIN distributors d
+        on ad.distributors_id=d.id
+        inner join orders o
+        on ad.order_id = o.id
+        where 1=1
+        <if test="id!=null and id!=''">
+            and ad.distributors_id = #{id}
+        </if>
+        <if test="orderId!=null and orderId!=''">
+            and ad.order_id = #{orderId}
+        </if>
+        <if test="distributionInfo!=null and distributionInfo.shopName!=null and distributionInfo.shopName!=''">
+            and d.shop_name = #{distributionInfo.shopName}
+        </if>
+    </select>
+
+    <select id="selectAmountDetail" parameterType="com.nowbook.sdp.model.AmountDetail" resultMap="AmountDetailMap">
+        select ad.id,ad.order_id,ad.get_amount,ad.distributors_id,ad.is_complete,ad.from_distributors_id,ad.oper_time
+        ,d.id distributionInfo_id,d.user_id,d.parent_ids,d.shop_name,d.open_shop_time,d.open_status,d.user_real_name,d.mobile_number,d.qq_number,d.categories,d.step
+        from amount_detail ad
+        INNER JOIN distributors d
+        on ad.distributors_id=d.id
+        inner join orders o
+        on ad.order_id = o.id
+        where 1=1
+        <if test="id!=null and id!=''">
+            and ad.distributors_id = #{id}
+        </if>
+        <if test="orderId!=null and orderId!=''">
+            and ad.order_id = #{orderId}
+        </if>
+        <if test="distributionInfo!=null and distributionInfo.shopName!=null and distributionInfo.shopName!=''">
+            and d.shop_name = #{distributionInfo.shopName}
+        </if>
+        limit #{offset},#{limit}
+    </select>
+
+
+    <update id="jobUpdateOrder" parameterType="map">
+    update  amount_detail a
+    inner join orders o
+    on a.order_id = o.id
+    set a.is_complete  = 1
+    where o.finished_at+#{intval} &lt; now()
+
+  </update>
+
+
+    <delete id="deleteAmountTemp" >
+    delete from amount_temp
+  </delete>
+    <insert id="insertAmountTemp" parameterType="map">
+      insert into amount_temp select DISTINCT(a.distributors_id),now() from  amount_detail a
+      inner join orders o
+      on a.order_id = o.id
+      where o.finished_at+#{intval} &lt; now()
+  </insert>
+    <select id="selectDistibutorIdCount" parameterType="map" resultType="long">
+    select count(1)
+    from amount_temp
+    where 1=1
+    limit #{offset},#{limit}
+  </select>
+    <select id="selectDistibutorId" parameterType="map" resultType="long">
+    SELECT distributors_id from amount_temp
+    where 1=1
+    limit #{offset},#{limit}
+  </select>
+    <select id="selectAmount" parameterType="map" resultType="long">
+    SELECT sum(a.get_amount)
+     from amount_detail a
+     where a.is_complete='1' and a.distributors_id = #{distributorsId}
+  </select>
+    <select id="selectAmountWithdrawal" parameterType="map" resultType="long">
+    SELECT sum(a.money)  from amount_withdrawal_history a
+    where a.distributors_id = #{distributorsId}
+  </select>
+
+
+    <insert id="insertDetailSum" parameterType="com.nowbook.sdp.model.AmountSum" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO amount_detail_sum (distributors_id, money) VALUES(40, 20)
+    ON DUPLICATE KEY UPDATE distributors_id=VALUES(distributors_id), money=VALUES(money);
+  </insert>
+
+    <select id="callSum">
+        <![CDATA[
+           {call user_summary_amount_procedure (#{distrabutorId,mode=IN,jdbcType=VARCHAR})}
+        ]]>
+    </select>
+    <update id="updateByOrder" parameterType="com.nowbook.sdp.model.AmountDetail" >
+        update amount_detail
+        set is_complete = #{isComplete,jdbcType=VARCHAR}
+        where order_item_id = #{orderItemId,jdbcType=BIGINT}
+              and order_id = #{orderId,jdbcType=BIGINT}
+
+    </update>
+
+
+
+
+    <resultMap id="itemSettlementMap" type="com.nowbook.sdp.model.ItemSettlement">
+        <id property="id" column="id"/>
+
+        <result property="orderId" column="order_id"/>
+        <result property="orderItemId" column="order_item_id"/>
+        <result property="sellerId" column="seller_id"/>
+        <result property="sellerName" column="seller_name"/>
+        <result property="buyerId" column="buyer_id"/>
+        <result property="buyerName" column="buyer_name"/>
+
+        <result property="business" column="business"/>
+        <result property="tradeStatus" column="trade_status"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemQuantity" column="item_quantity"/>
+        <result property="type" column="type"/>
+        <result property="payType" column="pay_type"/>
+        <result property="paymentCode" column="payment_code"/>
+        <result property="fee" column="fee"/>
+        <result property="reason" column="reason"/>
+        <result property="refundAmount" column="refund_amount"/>
+
+        <result property="totalEarning" column="total_earning"/>
+        <result property="totalExpenditure" column="total_expenditure"/>
+        <result property="sellerEarning" column="seller_earning"/>
+        <result property="nbCommission" column="nb_commission"/>
+        <result property="scoreEarning" column="score_earning"/>
+        <result property="presellDeposit" column="presell_deposit"/>
+        <result property="presellCommission" column="presell_commission"/>
+        <result property="thirdPartyCommission" column="third_party_commission"/>
+        <result property="commissionRate" column="commission_rate"/>
+
+        <result property="settleStatus" column="settle_status"/>
+        <result property="fixed" column="fixed"/>
+        <result property="voucher" column="voucher"/>
+        <result property="thirdPartyReceipt" column="third_party_receipt"/>
+        <result property="paidAt" column="paid_at"/>
+        <result property="settledAt" column="settled_at"/>
+        <result property="confirmedAt" column="confirmed_at"/>
+
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <sql id="settlements">
+        nb_item_settlements
+    </sql>
+
+    <sql id="settlementsColumns">
+        order_id, order_item_id, seller_id, seller_name, buyer_id, buyer_name,
+        business, trade_status, item_name, item_quantity, `type`, pay_type, payment_code, fee, reason, refund_amount,
+        total_earning, total_expenditure, seller_earning, nb_commission, score_earning, presell_deposit, presell_commission,  third_party_commission, commission_rate,
+        settle_status, fixed, voucher, third_party_receipt, paid_at, settled_at, confirmed_at,
+        created_at, updated_at
+    </sql>
+    <sql id="settlementsCondition">
+        <where>
+            <if test="criteria != null and criteria.sellerId != null">
+                AND seller_id = #{criteria.sellerId}
+            </if>
+            <if test="criteria != null and criteria.orderId != null">
+                AND order_id = #{criteria.orderId}
+            </if>
+            <if test="criteria != null and criteria.orderItemId != null">
+                AND order_item_id = #{criteria.orderItemId}
+            </if>
+            <if test="criteria != null and criteria.type != null">
+                AND `type` = #{criteria.type}
+            </if>
+            <if test="confirmedStartAt != null">
+                AND <![CDATA[ settled_at >= #{confirmedStartAt} ]]>
+            </if>
+            <if test="confirmedEndAt != null">
+                AND <![CDATA[ settled_at < #{confirmedEndAt} ]]>
+            </if>
+            <if test="paidStartAt != null">
+                AND <![CDATA[ paid_at >= #{paidStartAt} ]]>
+            </if>
+            <if test="paidEndAt != null">
+                AND <![CDATA[ paid_at < #{paidEndAt} ]]>
+            </if>
+        </where>
+    </sql>
+    <select id="findByOrderItemId" parameterType="map" resultMap="itemSettlementMap">
+        select id,
+        <include refid="settlementsColumns"/>
+        from <include refid="settlements"/>
+        where order_item_id = #{orderItemId}
+    </select>
+</mapper>

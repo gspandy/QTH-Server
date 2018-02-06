@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2012 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+        <!--nb related entity-->
+        <typeAlias alias="DepositFee" type="com.nowbook.rlt.settle.model.DepositFee"/>
+        <typeAlias alias="Settlement" type="com.nowbook.rlt.settle.model.Settlement"/>
+        <typeAlias alias="ItemSettlement" type="com.nowbook.rlt.settle.model.ItemSettlement"/>
+        <typeAlias alias="DailySettlement" type="com.nowbook.rlt.settle.model.DailySettlement"/>
+        <typeAlias alias="SellerSettlement" type="com.nowbook.rlt.settle.model.SellerSettlement"/>
+        <typeAlias alias="DepositAccount" type="com.nowbook.rlt.settle.model.DepositAccount"/>
+        <typeAlias alias="AlipayCash" type="com.nowbook.rlt.settle.model.AlipayCash"/>
+        <typeAlias alias="SellerAlipayCash" type="com.nowbook.rlt.settle.model.SellerAlipayCash"/>
+        <typeAlias alias="OrderAlipayCash" type="com.nowbook.rlt.settle.model.OrderAlipayCash"/>
+        <typeAlias alias="SettleJob" type="com.nowbook.rlt.settle.model.SettleJob"/>
+        <typeAlias alias="PreSale" type="com.nowbook.rlt.presale.model.PreSale"/>
+        <typeAlias alias="BusinessRate" type="com.nowbook.rlt.settle.model.BusinessRate"/>
+        <typeAlias alias="ShopAuthorizeInfo" type="com.nowbook.rlt.grid.model.ShopAuthorizeInfo"/>
+        <typeAlias alias="BrandsSellers" type="com.nowbook.rlt.grid.model.BrandsSellers"/>
+        <typeAlias alias="UnitBrand" type="com.nowbook.rlt.grid.model.UnitBrand"/>
+        <typeAlias alias="StorageStock" type="com.nowbook.rlt.presale.model.StorageStock"/>
+        <typeAlias alias="AddressStorage" type="com.nowbook.rlt.presale.model.AddressStorage"/>
+        <typeAlias alias="UnitSeller" type="com.nowbook.rlt.grid.model.UnitSeller"/>
+
+
+        <!--coupons related entity-->
+        <typeAlias alias="Coupon" type="com.nowbook.rlt.coupon.model.Coupon"/>
+        <typeAlias alias="CouponUsage" type="com.nowbook.rlt.coupon.model.CouponUsage"/>
+
+
+        
+        <typeAlias alias="ActivityDefinition" type="com.nowbook.rlt.code.model.ActivityDefinition"/>
+        <typeAlias alias="ActivityBind" type="com.nowbook.rlt.code.model.ActivityBind"/>
+        <typeAlias alias="ActivityCode" type="com.nowbook.rlt.code.model.ActivityCode"/>
+        <typeAlias alias="CodeUsage" type="com.nowbook.rlt.code.model.CodeUsage"/>
+
+        <!-- 净水处理 -->
+        <typeAlias alias="PurifySeries" type="com.nowbook.rlt.purify.model.PurifySeries"/>
+        <typeAlias alias="PurifyCategory" type="com.nowbook.rlt.purify.model.PurifyCategory"/>
+        <typeAlias alias="PurifyAssembly" type="com.nowbook.rlt.purify.model.PurifyAssembly"/>
+        <typeAlias alias="PurifyRelation" type="com.nowbook.rlt.purify.model.PurifyRelation"/>
+
+        <!-- 支付宝对账信息 -->
+        <typeAlias alias="AlipayTrans" type="com.nowbook.rlt.settle.model.AlipayTrans"/>
+        <typeAlias alias="AlipayTransLoad" type="com.nowbook.rlt.settle.model.AlipayTransLoad"/>
+        <typeAlias alias="AbnormalTrans" type="com.nowbook.rlt.settle.model.AbnormalTrans"/>
+        <typeAlias alias="DepositFeeCash" type="com.nowbook.rlt.settle.model.DepositFeeCash"/>
+
+        <!-- 抢购活动 -->
+        <typeAlias alias="BuyingActivityDefinition" type="com.nowbook.rlt.buying.model.BuyingActivityDefinition"/>
+        <typeAlias alias="BuyingItem" type="com.nowbook.rlt.buying.model.BuyingItem"/>
+        <typeAlias alias="BuyingOrderRecord" type="com.nowbook.rlt.buying.model.BuyingOrderRecord"/>
+        <typeAlias alias="BuyingTempOrder" type="com.nowbook.rlt.buying.model.BuyingTempOrder"/>
+
+        <!-- 净水押金 -->
+        <typeAlias alias="PreDeposit" type="com.nowbook.rlt.predeposit.model.PreDeposit"/>
+
+        <!-- 支付宝模拟帐务记录 -->
+        <typeAlias alias="MockedAlipayTrans" type="com.nowbook.rlt.settle.model.MockedAlipayTrans"/>
+    </typeAliases>
+</configuration>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="UserTeamMemberSelectMapper" >
+    <resultMap id="UserTeamMemberSelectMap" type="com.nowbook.sdp.model.UserTeamMemberSelect" >
+        <id column="user_id" property="userId" />
+        <result column="parent" property="parent"/>
+        <result column="nick" property="nick"/>
+        <result column="real_name" property="realName"/>
+        <result column="mobile" property="mobile"/>
+        <result column="member_num" property="memberNum"/>
+        <result column="inviter_num" property="inviterNum"/>
+        <result column="total" property="total"/>
+        <result column="level" property="level"/>
+        <result column="inviter" property="inviter"/>
+        <result column="inviter_mobile" property="inviterMobile"/>
+        <result column="avatar" property="avatar"/>
+        <result column="is_have_pay_pass" property="isHavePayPass"/>
+        <result column="qr_code_url" property="qrCodeUrl"/>
+        <result column="create_at" property="createAt"/>
+        <result column="level_up_at" property="levelUpAt"/>
+    </resultMap>
+
+    <sql id="columns">
+        a.user_id AS "user_id",
+        a.parent AS "parent",
+        a.level AS "level",
+        b.mobile AS "mobile",
+        b.created_at AS "create_at",
+        c.nick AS "nick",
+        c.avatar AS "avatar",
+        c.qr_code_url AS "qr_code_url",
+        d.real_name AS "real_name"
+    </sql>
+
+    <sql id="columnss">
+        a.user_id AS "user_id",
+        a.level AS "level",
+        a.level_up_at AS "level_up_at",
+        a.create_at AS "create_at",
+        b.mobile AS "mobile",
+        c.nick AS "nick",
+        c.avatar AS "avatar",
+        c.qr_code_url AS "qr_code_url",
+        c.pay_password AS "is_have_pay_pass",
+        d.real_name AS "real_name",
+        e.mobile AS "inviter_mobile"
+    </sql>
+
+    <sql id="column">
+        a.user_id AS "user_id",
+        a.level AS "level",
+        a.level_up_at AS "level_up_at",
+        a.create_at AS "create_at",
+        b.mobile AS "mobile",
+        c.nick AS "nick",
+        c.avatar AS "avatar",
+        c.qr_code_url AS "qr_code_url",
+        c.pay_password AS "is_have_pay_pass",
+        d.real_name AS "real_name"
+    </sql>
+
+    <select id="selectUser" parameterType="com.nowbook.sdp.model.UserTeamMemberSelect" resultMap="UserTeamMemberSelectMap">
+        SELECT <include refid="column"/>  FROM user_level a
+        LEFT JOIN users b ON a.user_id = b.id
+        LEFT JOIN user_extras c ON a.user_id = c.user_id
+        LEFT JOIN user_profiles d ON a.user_id = d.user_id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND a.user_id = #{userId}
+            </if>
+            <if test="mobile != null and userId != ''">
+                AND b.mobile = #{mobile}
+            </if>
+            <if test="inviter != null and inviter != ''">
+                AND a.inviter = #{inviter}
+            </if>
+            <if test="level != null and level != ''">
+                AND a.level >= #{level}
+            </if>
+            <if test="levels != null and levels != ''">
+                AND a.level = #{levels}
+            </if>
+            <if test="levelUpAt != null and levelUpAt != ''">
+                AND a.level_up_at >= #{levelUpAt}
+            </if>
+        </where>
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectUserNum" parameterType="com.nowbook.sdp.model.UserTeamMemberSelect" resultMap="UserTeamMemberSelectMap">
+        SELECT count(*) as "inviter_num"  FROM user_level a  LEFT JOIN users b ON a.user_id = b.id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND a.user_id = #{userId}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                AND b.mobile = #{mobile}
+            </if>
+            <if test="inviter != null and inviter != ''">
+                AND a.inviter = #{inviter}
+            </if>
+            <if test="level != null and level != ''">
+                AND a.level >= #{level}
+            </if>
+            <if test="levels != null">
+                AND a.level = #{levels}
+            </if>
+            <if test="type != null">
+                AND b.type = #{type}
+            </if>
+            <if test="levelUpAt != null and levelUpAt != ''">
+                AND a.level_up_at >= #{levelUpAt}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectUserTeamMember" parameterType="com.nowbook.sdp.model.UserTeamMemberSelect" resultMap="UserTeamMemberSelectMap">
+        SELECT <include refid="columns"/>  FROM user_relation a
+        LEFT JOIN users b ON a.user_id = b.id
+        LEFT JOIN user_extras c ON a.user_id = c.user_id
+        LEFT JOIN user_profiles d ON a.user_id = d.user_id
+        <where>
+            <if test="parent != null and parent != ''">
+                AND a.parent = #{parent}
+            </if>
+            <if test="level != null and level != ''">
+                AND a.level = #{level}
+            </if>
+        </where>
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectMyInviter" parameterType="com.nowbook.sdp.model.UserTeamMemberSelect" resultMap="UserTeamMemberSelectMap">
+        SELECT <include refid="columnss"/>  FROM user_level a
+        LEFT JOIN users b ON a.user_id = b.id
+        LEFT JOIN users e ON a.inviter = e.id
+        LEFT JOIN user_extras c ON a.user_id = c.user_id
+        LEFT JOIN user_profiles d ON a.user_id = d.user_id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND a.user_id = #{userId}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                AND b.mobile = #{mobile}
+            </if>
+            <if test="inviter != null and inviter != ''">
+                AND a.inviter = #{inviter}
+            </if>
+            <if test="level != null and level != ''">
+                AND a.level >= #{level}
+            </if>
+            <if test="levels != null">
+                AND a.level = #{levels}
+            </if>
+            <if test="type != null">
+                AND b.type = #{type}
+            </if>
+            <if test="levelUpAt != null and levelUpAt != ''">
+                AND a.level_up_at >= #{levelUpAt}
+            </if>
+        </where>
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectMyLevel" parameterType="com.nowbook.sdp.model.UserTeamMemberSelect" resultMap="UserTeamMemberSelectMap">
+        SELECT <include refid="columnss"/>  FROM user_level a
+        LEFT JOIN users b ON a.user_id = b.id
+        LEFT JOIN users e ON a.inviter = e.id
+        LEFT JOIN user_extras c ON a.user_id = c.user_id
+        LEFT JOIN user_profiles d ON a.user_id = d.user_id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND a.user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMyInviterForBlack" parameterType="com.nowbook.sdp.model.UserTeamMemberSelect" resultMap="UserTeamMemberSelectMap">
+        SELECT <include refid="column"/>  FROM user_level a
+        LEFT JOIN users b ON a.user_id = b.id
+        LEFT JOIN user_extras c ON a.user_id = c.user_id
+        LEFT JOIN user_profiles d ON a.user_id = d.user_id
+        <where>
+            <if test="inviter != null and inviter != ''">
+                AND (a.inviter = #{inviter} OR a.black_inviter = #{inviter})
+            </if>
+            <if test="level != null and level != ''">
+                AND a.level >= #{level}
+            </if>
+            <if test="levels != null and levels != ''">
+                AND a.level = #{levels}
+            </if>
+            <if test="levelUpAt != null and levelUpAt != ''">
+                AND a.level_up_at >= #{levelUpAt}
+            </if>
+        </where>
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectMyInviterNumForBlack" parameterType="com.nowbook.sdp.model.UserTeamMemberSelect" resultMap="UserTeamMemberSelectMap">
+        SELECT count(*) as "inviter_num"  FROM user_level a
+        <where>
+            <if test="inviter != null and inviter != ''">
+                AND (a.inviter = #{inviter} OR a.black_inviter = #{inviter})
+            </if>
+            <if test="level != null and level != ''">
+                AND a.level >= #{level}
+            </if>
+            <if test="levels != null and levels != ''">
+                AND a.level = #{levels}
+            </if>
+            <if test="levelUpAt != null and levelUpAt != ''">
+                AND a.level_up_at >= #{levelUpAt}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMyInviterNum" parameterType="com.nowbook.sdp.model.UserTeamMemberSelect" resultMap="UserTeamMemberSelectMap">
+        SELECT count(*) as "inviter_num"  FROM user_level a
+        <where>
+            <if test="inviter != null and inviter != ''">
+                AND a.inviter = #{inviter}
+            </if>
+            <if test="level != null and level != ''">
+                AND a.level >= #{level}
+            </if>
+            <if test="levels != null and levels != ''">
+                AND a.level = #{levels}
+            </if>
+            <if test="levelUpAt != null and levelUpAt != ''">
+                AND a.level_up_at >= #{levelUpAt}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectMemberNum" parameterType="com.nowbook.sdp.model.UserTeamMemberSelect" resultMap="UserTeamMemberSelectMap">
+        SELECT count(*) as "member_num" FROM user_relation a
+        <where>
+            <if test="parent != null and parent != ''">
+                AND a.parent = #{parent}
+            </if>
+            <if test="level != null and level != ''">
+                AND a.level = #{level}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectInviterNum" parameterType="com.nowbook.sdp.model.UserTeamMemberSelect" resultMap="UserTeamMemberSelectMap">
+        SELECT count(*) as "inviter_num" FROM user_level a
+        <where>
+            <if test="parent != null and parent != ''">
+                AND a.inviter = #{parent}
+            </if>
+            <if test="level != null and level != ''">
+                AND a.level = #{level}
+            </if>
+        </where>
+    </select>
+</mapper>

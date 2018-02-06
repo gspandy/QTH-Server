@@ -1,0 +1,277 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2012 大连锦霖科技有限公司
+  -->
+
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>nb-mall</artifactId>
+        <groupId>com.nowbook</groupId>
+        <version>dev</version>
+    </parent>
+    <artifactId>nb-admin</artifactId>
+    <name>nb-admin</name>
+    <version>${nb.version}</version>
+    <packaging>war</packaging>
+    <url>http://www.nowbook.com</url>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+        <build.number>${maven.build.timestamp}</build.number>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-zookeeper</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-web-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-web-ec</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-configuration</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-search</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-restful</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-site</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-category</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-image</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-related-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.jknack</groupId>
+            <artifactId>handlebars</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <!-- File Upload -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.sgroschupf</groupId>
+            <artifactId>zkclient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.4.5</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Mail supprot -->
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>javax.mail-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-open</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+        </dependency>
+
+        <!-- 分销 -->
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-sdp-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-sdp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.nowbook</groupId>
+            <artifactId>nb-weixin</artifactId>
+            <version>2.2.3-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>nb-admin</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <webResources>
+                        <webResource>
+                            <directory>src/main/webapp/WEB-INF</directory>
+                            <includes>
+                                <include>*.xml</include>
+                            </includes>
+                            <targetPath>WEB-INF</targetPath>
+                            <filtering>true</filtering>
+                        </webResource>
+                    </webResources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-user</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-item</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-shop</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-trade</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-brand</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-coupons</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.nowbook</groupId>
+                    <artifactId>nb-related</artifactId>
+                </dependency>
+                <!--<dependency>-->
+                    <!--<groupId>com.nowbook</groupId>-->
+                    <!--<artifactId>nb-rsapi</artifactId>-->
+                    <!--<version>1.2-SNAPSHOT</version>-->
+                <!--</dependency>-->
+            </dependencies>
+            <build>
+                <filters>
+                    <filter>src/main/filter/dev.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>test</id>
+            <build>
+                <filters>
+                    <filter>src/main/filter/test.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <build>
+                <filters>
+                    <filter>src/main/filter/prod.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>prepub</id>
+            <build>
+                <filters>
+                    <filter>src/main/filter/prepub.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>qa</id>
+            <build>
+                <filters>
+                    <filter>src/main/filter/qa.properties</filter>
+                </filters>
+            </build>
+            <properties>
+                <mode>prepub</mode>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>

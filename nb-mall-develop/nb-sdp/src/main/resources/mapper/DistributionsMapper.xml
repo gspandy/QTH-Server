@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2016 大连锦霖科技有限公司
+   -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="Distributions">
+    <resultMap id="DistributionsMap" type="com.nowbook.sdp.model.Distributions">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="shopName" column="shop_name"/>
+        <result property="openShopTime" column="open_shop_time"/>
+        <result property="openStatus" column="open_status"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="promotionQr" column="promotion_qr"/>
+        <result property="storeQr" column="store_qr"/>
+        <association property="distributorsAudits" javaType="com.nowbook.sdp.model.DistributorsAudit">
+            <result property="distributorsId" column="distributors_id"/>
+            <result property="auditStatus" column="audit_status"/>
+            <result property="auditTime" column="audit_time"/>
+            <result property="auditPeople" column="audit_people"/>
+        </association>
+        <association property="distributorsUsers" javaType="com.nowbook.sdp.model.DistributorsUser">
+            <result property="name" column="name"/>
+            <result property="mobile" column="mobile"/>
+            <result property="realName" column="real_name"/>
+        </association>
+        <!--<collection property="distributorsAudits" ofType="DistributorsAudit" javaType="java.util.List">-->
+            <!--<id property="id" column="id"/>-->
+            <!--<result property="distributorsId" column="distributors_id"/>-->
+            <!--<result property="auditStatus" column="audit_status"/>-->
+            <!--<result property="auditTime" column="audit_time"/>-->
+            <!--<result property="auditPeople" column="audit_people"/>-->
+        <!--</collection>-->
+        <!--<collection property="distributorsUsers" ofType="DistributorsUser" javaType="java.util.List">-->
+            <!--<result property="name" column="name"/>-->
+            <!--<result property="mobile" column="mobile"/>-->
+            <!--<result property="realName" column="real_name"/>-->
+        <!--</collection>-->
+    </resultMap>
+    <resultMap id="DistributionInfoResultMap" type="com.nowbook.sdp.model.DistributionInfo" >
+        <id column="distributorId" property="distributorId" jdbcType="BIGINT" />
+        <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+        <result column="open_shop_time" property="openShopTime" jdbcType="VARCHAR" />
+        <result column="totalSaleAmount" property="totalSaleAmount" jdbcType="VARCHAR" />
+        <result column="totalCommissionAmount" property="totalCommissionAmount" jdbcType="VARCHAR" />
+        <result column="todaySaleAmount" property="todaySaleAmount" jdbcType="VARCHAR" />
+        <result column="myBranchOfficeNum" property="myBranchOfficeNum" jdbcType="VARCHAR" />
+        <result column="totalMemberNum" property="totalMemberNum" jdbcType="VARCHAR" />
+        <result column="totalOrderNum" property="totalOrderNum" jdbcType="VARCHAR" />
+        <result column="withdrawAmount" property="withdrawAmount" jdbcType="VARCHAR" />
+        <result column="sharedOrderCommAmount" property="sharedOrderCommAmount" jdbcType="VARCHAR" />
+        <result column="categories" property="categories" jdbcType="VARCHAR" />
+        <result column="step" property="step" jdbcType="VARCHAR" />
+
+    </resultMap>
+    <resultMap id="SummaryResultMap" type="com.nowbook.sdp.model.Summary" >
+        <result column="summary_amount_key" property="key" jdbcType="VARCHAR" />
+        <result column="summary_amount_value" property="value" jdbcType="VARCHAR" />
+
+    </resultMap>
+    <resultMap id="DistributionInfoForQueryResultMap" type="com.nowbook.sdp.model.DistributionInfoForQuery" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <id column="user_id" property="userId" jdbcType="BIGINT" />
+        <id column="parent_ids" property="parentIds" jdbcType="BIGINT" />
+        <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+        <result column="open_shop_time" property="openShopTime" jdbcType="VARCHAR" />
+        <result column="open_status" property="openStatus" jdbcType="VARCHAR" />
+        <result column="user_real_name" property="realName" jdbcType="VARCHAR" />
+        <result column="mobile_number" property="mobile" jdbcType="VARCHAR" />
+        <result column="qq_number" property="qq" jdbcType="VARCHAR" />
+        <result column="categories" property="categories" jdbcType="VARCHAR" />
+        <result column="step" property="step" jdbcType="VARCHAR" />
+        <result column="promotion_qr" property="promotionQr" jdbcType="VARCHAR" />
+        <result column="store_qr" property="storeQr" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="columns">
+      user_id,shop_name,open_shop_time,open_status,user_real_name,mobile_number,qq_number,parent_ids,step
+    </sql>
+
+    <select id="disAllByName" parameterType="map" resultMap="DistributionsMap">
+        select distributors.id,distributors.user_id,distributors.shop_name,distributors.open_shop_time,distributors.open_status,distributors_audit.audit_status,users.name,users.mobile,user_profiles.real_name
+        from distributors inner join users on distributors.user_id=users.id
+        left join user_profiles
+        on distributors.user_id=user_profiles.user_id
+        left join distributors_audit
+        on distributors.id=distributors_audit.distributors_id
+        where 1=1
+        <if test="shopName!=null and shopName!=''">
+            and distributors.shop_name like concat('%', #{shopName},'%')
+        </if>
+        <if test="openStatus!=null and openStatus!=''">
+            and distributors.open_status=#{openStatus}
+        </if>
+        <if test="auditStatus!=null and auditStatus!=''">
+            and distributors_audit.audit_status=#{auditStatus}
+        </if>
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="countLikeName" parameterType="map" resultType="long">
+        select count(1)
+        from distributors left join distributors_audit
+        on distributors.id=distributors_audit.distributors_id
+        where 1=1
+        <if test="shopName!=null and shopName!=''">
+            and distributors.shop_name like concat('%', #{shopName},'%')
+        </if>
+        <if test="openStatus!=null and openStatus!=''">
+            and distributors.open_status=#{openStatus}
+        </if>
+        <if test="auditStatus!=null and auditStatus!=''">
+            and distributors_audit.audit_status=#{auditStatus}
+        </if>
+    </select>
+
+    <update id="updateOpenStatus" parameterType="map">
+        update distributors
+        set open_status=#{openStatus}
+        where id = #{id}
+    </update>
+
+    <update id="disUpdate" parameterType="map">
+        update distributors
+        <set>
+            <if test="shopName!=null and shopName!=''">
+                shop_name=#{shopName},
+            </if>
+            <if test="categories!=null and categories!=''">
+                categories=#{categories},
+            </if>
+            step = 2
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="disMobileUpdate" parameterType="map">
+        update users
+        set mobile=#{mobile}
+        where id = #{id}
+    </update>
+
+    <update id="updateRealnameStatus" parameterType="map">
+        update user_profiles
+        set real_name=#{realName}
+        where user_id = #{id}
+    </update>
+
+    <insert id="disCreat" parameterType="com.nowbook.sdp.model.Distributions" keyProperty="id" useGeneratedKeys="true">
+        insert into distributors (
+        <include refid="columns"/>
+        )
+        values (#{userId},#{shopName}, now(),0,#{realName},#{mobile},#{qq},#{parentIds},1)
+    </insert>
+    <select id="getParentIds" parameterType="long" resultType="String">
+        select parent_ids
+        from distributors
+         where id = #{id}
+    </select>
+    <select id="getParentIdsByuserId" parameterType="long" resultType="String">
+        select parent_ids
+        from distributors
+        where user_id = #{userId}
+    </select>
+    <select id="getIds" parameterType="long" resultType="String">
+        select id
+        from distributors
+        where user_id = #{userId}
+    </select>
+    <!--<select id="disById" parameterMap="DistributionsMap" resultType="Long">-->
+        <!--select id-->
+        <!--from distributors-->
+        <!--where user_id=#{userId}-->
+    <!--</select>-->
+    <select id="selectByPrimaryKey" resultMap="DistributionInfoResultMap" parameterType="java.lang.Long" >
+        select t.distributor_id , d.shop_name,u.mobile,d.open_shop_time
+            ,sum(if(t.summary_amount_key = 'totalSaleAmount',t.summary_amount_value,0)) as totalSaleAmount
+            ,sum(if(t.summary_amount_key = 'totalCommissionAmount',t.summary_amount_value,0)) as totalCommissionAmount
+            ,sum(if(t.summary_amount_key = 'todaySaleAmount',t.summary_amount_value,0)) as todaySaleAmount
+            ,sum(if(t.summary_amount_key = 'myBranchOfficeNum',t.summary_amount_value,0)) as myBranchOfficeNum
+            ,sum(if(t.summary_amount_key = 'totalMemberNum',t.summary_amount_value,0)) as totalMemberNum
+            ,sum(if(t.summary_amount_key = 'totalOrderNum',t.summary_amount_value,0)) as totalOrderNum
+            ,sum(if(t.summary_amount_key = 'withdrawAmount',t.summary_amount_value,0)) as withdrawAmount
+            ,sum(if(t.summary_amount_key = 'sharedOrderCommAmount',t.summary_amount_value,0)) as sharedOrderCommAmount
+            from user_summary_amount t
+            inner join distributors d on t.distributor_id = d.id
+            inner join users u on u.id = d.user_id
+            where t.distributor_id = #{id,jdbcType=BIGINT}
+            group by t.distributor_id
+
+    </select>
+    <select id="selectDistributionByKey" resultMap="DistributionInfoForQueryResultMap" parameterType="java.lang.Long" >
+        select t.*
+        from distributors t
+        where t.id = #{id,jdbcType=BIGINT}
+
+
+    </select>
+    <select id="selectDistributionByUserId" resultMap="DistributionInfoForQueryResultMap" parameterType="java.lang.Long" >
+        select t.*
+        from distributors t
+        where t.user_id = #{userId,jdbcType=BIGINT}
+    </select>
+    <select id="selectSummaryByKey" resultMap="SummaryResultMap" parameterType="java.lang.Long" >
+        select t.summary_amount_key , t.summary_amount_value
+        from user_summary_amount t
+        where t.distributor_id = #{id,jdbcType=BIGINT}
+
+    </select>
+
+    <select id="getDistributionByLevel" parameterType="map" resultMap="DistributionInfoResultMap" >
+        select a.* from distributors a where exists (
+          select distributor_id from distributors_relation b
+          where parent_id = #{id,jdbcType=BIGINT} and level = #{level,jdbcType=VARCHAR} and a.id = b.distributor_id)
+        limit #{offset},#{limit}
+    </select>
+    <select id="getDistributionByLevelCount" parameterType="map" resultType="long">
+        select count(1) from distributors a where exists (
+          select distributor_id from distributors_relation b
+          where parent_id = #{id,jdbcType=BIGINT} and level = #{level,jdbcType=VARCHAR} and a.id = b.distributor_id)
+    </select>
+    <select id="getConsumption" parameterType="map" resultType="string">
+        select ifnull(sum(o.fee),0) from orders  o
+        inner join distributors d
+        on o.buyer_id = d.user_id
+        where o.`status` = '3' and d.id = #{distributorId,jdbcType=BIGINT}
+    </select>
+    <select id="withdrawalsEd" parameterType="map" resultType="long">
+        select  sum(a.money) from amount_withdrawal_history a
+            where a.distributors_id = #{distributorId,jdbcType=BIGINT}
+    </select>
+    <select id="amountCount" parameterType="map" resultType="string">
+        select  ifnull(t.summary_amount_value,0)
+        from user_summary_amount t
+        where t.distributor_id = #{distributorId,jdbcType=BIGINT} and t.summary_amount_key='withdrawAmount'
+    </select>
+    <select id="selectAvatar" parameterType="map" resultType="string">
+        select  avatar
+        from users
+        where id= #{userId}
+    </select>
+    <insert id="bindSdp" >
+        insert into order_sdp (
+        order_id,distributor_id
+        )
+        values (#{orderId},#{ditrabutorId})
+    </insert>
+    <select id="getParentsByOrderId" resultType="string">
+        select  d.parent_ids from distributors d
+        INNER join order_sdp os
+        on d.id = os.distributor_id
+        where os.order_id = #{orderId,jdbcType=BIGINT}
+
+    </select>
+    <select id="getOpenIdByDistributorId"  parameterType="map" resultType="string">
+        select  u.third_part_id from users u
+        INNER join order_sdp os
+        on d.id = os.distributor_id
+        where os.order_id = #{orderId,jdbcType=BIGINT}
+    </select>
+    <select id="selectDistributorId" parameterType="map" resultType="String">
+        select distributor_id from order_sdp
+        where order_id = #{orderId}
+    </select>
+    <update id="setQr" parameterType="com.nowbook.sdp.model.Distributions">
+        update distributiors
+        set promotion_qr=#{promotionQr},store_qr=#{storeQr}
+        where id = #{id}
+    </update>
+    <update id="updateDistributor" parameterType="com.nowbook.sdp.model.Distributions">
+        update distributors
+        <set>
+            <if test="shopName!=null and shopName!=''">
+                shop_name=#{shopName},
+            </if>
+            <if test="realName!=null and realName!=''">
+                user_real_name=#{realName},
+            </if>
+            <if test="mobile!=null and mobile!=''">
+                mobile_number=#{mobile},
+            </if>
+            <if test="qq!=null and qq!=''">
+                qq_number=#{qq},
+            </if>
+            <if test="promotionQr!=null and promotionQr!=''">
+                promotion_qr=#{promotionQr},
+            </if>
+            <if test="storeQr!=null and storeQr!=''">
+                store_qr=#{storeQr},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

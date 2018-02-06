@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2012 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+        <!--trade related entity-->
+        <typeAlias alias="Order" type="com.nowbook.trade.model.Order"/>
+        <typeAlias alias="OrderExtra" type="com.nowbook.trade.model.OrderExtra"/>
+        <typeAlias alias="OrderItem" type="com.nowbook.trade.model.OrderItem"/>
+        <typeAlias alias="Delivery" type="com.nowbook.trade.model.Delivery"/>
+        <typeAlias alias="Comment" type="com.nowbook.trade.model.Comment"/>
+        <typeAlias alias="UserTradeInfo" type="com.nowbook.trade.model.UserTradeInfo"/>
+        <typeAlias alias="OrderComment" type="com.nowbook.trade.model.OrderComment"/>
+        <typeAlias alias="LogisticsInfo" type="com.nowbook.trade.model.LogisticsInfo"/>
+        <typeAlias alias="LogisticsRevert" type="com.nowbook.trade.model.LogisticsRevert"/>
+        <!-- freight entity -->
+        <typeAlias alias="FreightModel" type="com.nowbook.trade.model.FreightModel"/>
+        <typeAlias alias="LogisticsSpecial" type="com.nowbook.trade.model.LogisticsSpecial"/>
+        
+        <!-- vat invoice entity -->
+        <typeAlias alias="UserVatInvoice" type="com.nowbook.trade.model.UserVatInvoice" />
+        
+        <!--Delivery method-->
+        <typeAlias alias="DeliveryMethod" type="com.nowbook.trade.model.DeliveryMethod"/>
+
+        <!-- bask order entity -->
+        <typeAlias alias="BaskOrder" type="com.nowbook.trade.model.BaskOrder"/>
+
+        <!-- user collected related -->
+        <typeAlias alias="CollectedItem" type="com.nowbook.collect.model.CollectedItem"/>
+        <typeAlias alias="CollectedShop" type="com.nowbook.collect.model.CollectedShop"/>
+
+        <!-- Express -->
+        <typeAlias alias="ExpressInfo" type="com.nowbook.trade.model.ExpressInfo" />
+        <typeAlias alias="InstallInfo" type="com.nowbook.trade.model.InstallInfo" />
+        <typeAlias alias="OrderLogisticsInfo" type="com.nowbook.trade.model.OrderLogisticsInfo" />
+        <typeAlias alias="OrderInstallInfo" type="com.nowbook.trade.model.OrderInstallInfo" />
+
+        <typeAlias alias="OrderJobDayConfig" type="com.nowbook.trade.model.OrderJobDayConfig" />
+        <typeAlias alias="OrderJobOverDay" type="com.nowbook.trade.model.OrderJobOverDay" />
+
+        <typeAlias alias="PreAuthorizationDepositOrder" type="com.nowbook.agreements.model.PreAuthorizationDepositOrder" />
+
+    </typeAliases>
+</configuration>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="UserRelationMapper" >
+    <resultMap id="UserRelationMap" type="com.nowbook.sdp.model.UserRelation" >
+        <id column="id" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="parent" property="parent"/>
+        <result column="parent_mobile" property="parentMobile"/>
+        <result column="level" property="level"/>
+        <result column="parent_level" property="parentLevel"/>
+        <result column="create_at" property="createAt"/>
+        <result column="update_at" property="updateAt"/>
+    </resultMap>
+
+    <sql id="columns" >
+        user_id, parent, level, create_at, update_at
+    </sql>
+    <sql id="column" >
+        a.user_id AS "user_id", a.parent AS "parent", a.level AS "level", a.create_at AS "create_at", a.update_at AS "update_at" , b.mobile AS "parent_mobile",
+        c.level AS "parent_level"
+    </sql>
+
+    <select id="selectBy" parameterType="com.nowbook.sdp.model.UserRelation" resultMap="UserRelationMap">
+        SELECT a.id AS "id",<include refid="column"/>  FROM user_relation a
+        LEFT JOIN users b ON a.parent = b.id
+        LEFT JOIN user_level c ON a.parent = c.user_id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND a.user_id = #{userId}
+            </if>
+            <if test="parent != null and parent != ''">
+                AND a.parent = #{parent}
+            </if>
+            <if test="level != null and level != ''">
+                AND a.level = #{level}
+            </if>
+        </where>
+        limit #{offset}, #{limit}
+    </select>
+
+    <insert id="insert" parameterType="com.nowbook.sdp.model.UserRelation">
+        INSERT INTO user_relation (<include refid="columns"/>)
+        VALUES (#{userId}, #{parent}, #{level},now(),now())
+    </insert>
+
+    <delete id="deleteByUserId" parameterType="com.nowbook.sdp.model.UserRelation" >
+        DELETE FROM user_relation WHERE user_id = #{userId}
+    </delete>
+</mapper>

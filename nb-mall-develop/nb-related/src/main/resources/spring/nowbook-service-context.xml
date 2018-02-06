@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2012 大连锦霖科技有限公司
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <context:component-scan base-package="com.nowbook.category"/>
+    <context:component-scan base-package="com.nowbook.rlt.purify"/>
+    <context:component-scan base-package="com.nowbook.rlt.presale"/>
+    <context:component-scan base-package="com.nowbook.rlt.code"/>
+    <context:component-scan base-package="com.nowbook.rlt.coupon"/>
+    <context:component-scan base-package="com.nowbook.rlt.grid"/>
+    <context:component-scan base-package="com.nowbook.rlt.settle"/>
+    <context:component-scan base-package="com.nowbook.rlt.buying"/>
+    <context:component-scan base-package="com.nowbook.rlt.predeposit"/>
+    <context:component-scan base-package="com.nowbook.rlt.popularizeurl"/>
+
+    <!-- 显示注册 JDE 客户端实现 -->
+    <bean id="jdeClient" class="com.nowbook.rlt.jde.JdeClientImpl" >
+        <constructor-arg index="0" value="#{app.jdeWriteUrl}"/>
+        <constructor-arg index="1" value="#{app.jdeVoteUrl}" />
+    </bean>
+
+</beans>

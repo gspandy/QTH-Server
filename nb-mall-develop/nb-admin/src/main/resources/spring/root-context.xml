@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2012 大连锦霖科技有限公司
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!-- AOP support -->
+    <bean class="com.nowbook.aspect.AuthorizationAspect"/>
+
+    <context:component-scan base-package="com.nowbook.common,com.nowbook.admin.service,com.nowbook.admin.event,com.nowbook.sms,com.nowbook.web.controller.api.userEvent,com.nowbook.rlt.coupon"/>
+
+    <util:properties id="app" location="classpath:app.properties"/>
+
+
+    <bean id = "alipayEventBus" class="com.nowbook.alipay.event.AlipayEventBus">
+        <constructor-arg index="0" value="2" />
+    </bean>
+
+    <bean id= "tradeCloseEventListener" class="com.nowbook.alipay.event.TradeCloseEventListener">
+        <constructor-arg index="0" ref="alipayEventBus" />
+    </bean>
+
+    <bean id="smsCountValidator" class="com.nowbook.web.controller.api.validator.SmsCountValidator"  />
+    <bean id="adminHandleBarsHelper" class="com.nowbook.admin.web.AdminHandleBarsHelper"  />
+
+    <!-- schedule job -->
+   <task:annotation-driven/>
+    <bean class="com.nowbook.admin.web.jobs.AdminLeader"/>
+    <!--<bean class="com.nowbook.admin.web.jobs.ItemSearchDumper"/>-->
+    <!--<bean class="com.nowbook.admin.web.jobs.ShopSearchDumper"/>-->
+    <!--<bean class="com.nowbook.admin.web.jobs.OrderJobs"/>-->
+    <!--<bean class="com.nowbook.admin.web.jobs.OrderCommentJobs"/>-->
+    <bean class="com.nowbook.admin.web.jobs.SettlementInvoker"/>
+    <!--<bean class="com.nowbook.admin.web.jobs.UserLevelUpJobs"/>-->
+    <!--<bean class="CouponJobs"/>-->
+    <!--<bean class="ActivityDefinitionStatusJobs"/>-->
+    <!--<bean class="com.nowbook.admin.web.jobs.PresaleOrderSmsJobs"/>-->
+    <!--<bean class="com.nowbook.admin.web.jobs.CommissionJobs"/>-->
+
+
+    <import resource="classpath*:search-context.xml"/>
+    <import resource="classpath*:/spring/site-service-context.xml"/>
+    <import resource="classpath*:/spring/nowbook-web-context.xml"/>
+</beans>

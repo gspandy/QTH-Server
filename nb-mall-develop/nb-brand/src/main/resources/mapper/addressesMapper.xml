@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+<mapper namespace="Addresses">
+    <resultMap id="AddressesMap" type="Addresses">
+        <id property="id" column="id"/>
+        <result property="cityName" column="name"/>
+    </resultMap>
+
+
+    <select id="findAddress" resultMap ="AddressesMap" parameterType="int">
+      select id,name from exper_address_view where parent_id=#{provinceId};
+    </select>
+    <select id="findProvince" resultMap ="AddressesMap">
+        select id,name from exper_address_view where level = 1;
+    </select>
+
+
+</mapper>

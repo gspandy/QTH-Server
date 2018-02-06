@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="UserEarningsBonusesMapper" >
+    <resultMap id="UserEarningsBonusesMap" type="com.nowbook.sdp.model.UserEarningsBonuses" >
+        <id column="id" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="from_id" property="fromId"/>
+        <result column="type" property="type"/>
+        <result column="order_item_id" property="orderItemId"/>
+        <result column="money" property="money"/>
+        <result column="money_type" property="moneyType"/>
+        <result column="status" property="status"/>
+        <result column="create_at" property="createAt"/>
+        <result column="update_at" property="updateAt"/>
+        <result column="item_name" property="itemName"/>
+        <result column="fee" property="fee"/>
+        <result column="order_id" property="orderId"/>
+        <result column="theStatus" property="theStatus"/>
+        <result column="mobile" property="mobile"/>
+    </resultMap>
+
+    <sql id="columns" >
+        user_id, from_id, type, order_item_id, money, money_type, status, create_at, update_at
+    </sql>
+
+    <sql id="orderDetailColumns" >
+        user_id, from_id, u.type, order_item_id, money, money_type, u.status, create_at, update_at, item_name, fee, order_id, o.status as theStatus, mobile
+    </sql>
+
+    <select id="selectBy" parameterType="com.nowbook.sdp.model.UserEarningsBonuses" resultMap="UserEarningsBonusesMap">
+        SELECT <include refid="columns"/> from user_earnings_bonuses
+        <where>
+            <if test="userId != null and userId != ''">
+                AND user_id = #{userId}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="moneyType != null and moneyType != ''">
+                AND money_type = #{moneyType}
+            </if>
+        </where>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="countOrderDetail" parameterType="com.nowbook.sdp.model.UserEarningsBonuses" resultType="java.lang.Long">
+        SELECT count(*) from user_earnings_bonuses u
+        LEFT JOIN order_items o
+        ON u.order_item_id = o.id
+        LEFT JOIN users uu
+        ON u.from_id = uu.id
+        <where>
+            <if test="startAt != null and startAt != ''">
+                AND <![CDATA[ u.create_at >= #{startAt} ]]>
+            </if>
+            <if test="endAt != null and endAt != ''">
+                AND <![CDATA[ u.create_at < #{endAt} ]]>
+            </if>
+            <if test="mobile != null and mobile != ''">
+                AND uu.mobile = #{mobile}
+            </if>
+            <if test="orderItemId != null and orderItemId != ''">
+                AND u.order_item_id = #{orderItemId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOrderDetail" parameterType="com.nowbook.sdp.model.UserEarningsBonuses" resultMap="UserEarningsBonusesMap">
+        SELECT <include refid="orderDetailColumns"/> from user_earnings_bonuses u
+        LEFT JOIN order_items o
+        ON u.order_item_id = o.id
+        LEFT JOIN users uu
+        ON u.from_id = uu.id
+        <where>
+            <if test="startAt != null and startAt != ''">
+                AND <![CDATA[ u.create_at >= #{startAt} ]]>
+            </if>
+            <if test="endAt != null and endAt != ''">
+                AND <![CDATA[ u.create_at < #{endAt} ]]>
+            </if>
+            <if test="mobile != null and mobile != ''">
+                AND uu.mobile = #{mobile}
+            </if>
+            <if test="orderItemId != null and orderItemId != ''">
+                AND u.order_item_id = #{orderItemId}
+            </if>
+        </where>
+        ORDER BY u.create_at desc
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="sum" parameterType="com.nowbook.sdp.model.UserEarningsBonuses" resultMap="UserEarningsBonusesMap">
+        SELECT user_id ,money_type,SUM(money) AS "money"  from user_earnings_bonuses
+        <where>
+            <if test="startAt != null and startAt != ''">
+                AND <![CDATA[ create_at >= #{startAt} ]]>
+            </if>
+            <if test="endAt != null and endAt != ''">
+                AND <![CDATA[ create_at < #{endAt} ]]>
+            </if>
+            <if test="userId != null and userId != ''">
+                AND user_id = #{userId}
+            </if>
+        </where>
+        GROUP BY money_type
+    </select>
+
+    <insert id="insert" parameterType="com.nowbook.sdp.model.UserEarningsBonuses">
+        INSERT INTO user_earnings_bonuses (<include refid="columns"/>)
+        VALUES (#{userId}, #{fromId}, #{type}, #{orderItemId}, #{money}, #{moneyType},
+        #{status}, now(), now())
+    </insert>
+
+    <update id="update" parameterType="com.nowbook.sdp.model.UserTeam" >
+        UPDATE user_earnings_bonuses
+        <set >
+            update_at = now(),
+            <if test="status != null" >status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

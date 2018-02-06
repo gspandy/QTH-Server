@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="NoticeReadTimeMapper">
+    <resultMap id="NoticeReadTimeMap" type="com.nowbook.notice.model.NoticeReadTime">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="type" column="type"/>
+        <result property="clickTime" column="click_time"/>
+        <result property="clearanceTime" column="clearance_time"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+
+    </resultMap>
+
+    <sql id="columns">
+          user_id,type,click_time,clearance_time,created_at,updated_at
+    </sql>
+
+    <sql id="table">
+        nb_notice_read_time
+    </sql>
+
+    <select id="get" parameterType="long" resultMap="NoticeReadTimeMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where id = #{id}
+    </select>
+
+    <insert id="create" parameterType="com.nowbook.notice.model.NoticeReadTime" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table"/>
+        (<include refid="columns"/>)
+        values
+        (
+        #{userId},#{type}, #{clickTime}, #{clearanceTime},
+        now(),now()
+        )
+
+    </insert>
+
+    <delete id="delete" parameterType="long">
+        delete from <include refid="table"/> where id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.nowbook.notice.model.NoticeReadTime">
+        update <include refid="table"/>
+        <set>
+            <if test="userId!=null">user_id=#{userId},</if>
+            <if test="type!=null">type=#{type},</if>
+            <if test="clickTime!=null">click_time=#{clickTime},</if>
+            <if test="clearanceTime!=null">clearance_time=#{clearanceTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateByUserId" parameterType="com.nowbook.notice.model.NoticeReadTime">
+        update <include refid="table"/>
+        <set>
+            <if test="clickTime!=null">click_time=#{clickTime},</if>
+            <if test="clearanceTime!=null">clearance_time=#{clearanceTime},</if>
+        </set>
+        where  user_id =#{userId} AND type=#{type}
+    </update>
+
+    <select id="findByToUserId" parameterType="com.nowbook.notice.model.NoticeReadTime" resultMap="NoticeReadTimeMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        <where>
+            user_id =#{userId}
+            <if test="type != null ">
+                AND type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <select id="findGroupByUserId" parameterType="com.nowbook.notice.model.NoticeReadTime" resultMap="NoticeReadTimeMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        <where>
+            user_id =#{userId}
+        </where>
+        GROUP BY `type`
+    </select>
+</mapper>

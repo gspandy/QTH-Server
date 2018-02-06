@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2016 大连锦霖科技有限公司
+   -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="ConcernMember">
+    <resultMap id="ConcernMemberMap" type="com.nowbook.sdp.model.ConcernMember">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="distributorId" column="distributor_id"/>
+        <result property="operTime" column="oper_time"/>
+        <association property="user" javaType="com.nowbook.user.model.User">
+            <result property="name" column="name"/>
+            <result property="mobile" column="mobile"/>
+            <result property="email" column="email"/>
+            <result property="avatar" column="avatar"/>
+        </association>
+    </resultMap>
+
+    <insert id="deleteConcernMember" parameterType="com.nowbook.sdp.model.ConcernMember">
+        delete from concern_member
+        where 1=1
+        <if test="userId!=null and userId!=''">
+            and user_id = #{userId}
+        </if>
+        <if test="distributorId!=null and distributorId!=''">
+            and distributor_id = #{distributorId}
+        </if>
+    </insert>
+    <insert id="insertConcernMember" parameterType="com.nowbook.sdp.model.ConcernMember" keyProperty="id" useGeneratedKeys="true">
+        insert into concern_member (user_id,distributor_id,oper_time)
+        values (#{userId},#{distributorId},#{operTime} )
+    </insert>
+    <select id="getConcernMember" parameterType="com.nowbook.sdp.model.ConcernMember" resultMap="ConcernMemberMap" >
+        select a.id,a.user_id,a.distributor_id,a.oper_time, b.name, b.mobile, b.email, b.avatar from concern_member a,users b
+          where a.user_id = b.id and  a.distributor_id = #{distributorId,jdbcType=BIGINT}
+        limit #{offset},#{limit}
+    </select>
+    <select id="getConcernMemberCount" parameterType="com.nowbook.sdp.model.ConcernMember" resultType="long">
+        select count(1) from concern_member
+          where distributor_id = #{distributorId,jdbcType=BIGINT}
+    </select>
+
+
+</mapper>

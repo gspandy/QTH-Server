@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+<mapper namespace="PaymentDetailMapper">
+    <resultMap id="PaymentDetailMap" type="com.nowbook.sdp.model.PaymentDetail">
+        <id property="id" column="id"/>
+        <result property="idNo" column="id_no"/>
+        <result property="userId" column="user_id"/>
+        <result property="money" column="money"/>
+        <result property="earnings" column="earnings"/>
+        <result property="bonuses" column="bonuses"/>
+        <result property="deposit" column="deposit"/>
+        <result property="payMoney" column="pay_money"/>
+        <result property="payType" column="pay_type"/>
+        <result property="payId" column="pay_id"/>
+        <result property="payName" column="pay_name"/>
+        <result property="payStatus" column="pay_status"/>
+        <result property="payCode" column="pay_code"/>
+        <result property="payResult" column="pay_result"/>
+        <result property="reason" column="reason"/>
+        <result property="createAt" column="create_at"/>
+        <result property="payAt" column="pay_at"/>
+        <result property="updateAt" column="update_at"/>
+        <result property="mobile" column="mobile"/>
+    </resultMap>
+
+    <sql id="columns">
+        id_no,user_id,money,earnings,bonuses,deposit,pay_money,pay_type,pay_id,pay_name,pay_status,pay_code,
+        pay_result,reason,create_at,pay_at,update_at
+    </sql>
+
+    <sql id="paymentDetailColumns">
+        p.id,p.user_id,p.money,p.earnings,p.bonuses,p.deposit,p.pay_money,p.pay_type,p.pay_id,p.pay_name,p.pay_status,p.pay_code,
+        p.pay_result,p.reason,p.create_at,p.pay_at,p.update_at,u.mobile
+    </sql>
+
+    <sql id="condition">
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="idNo != null">
+                AND id_no = #{idNo}
+            </if>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test="payType != null">
+                AND pay_type = #{payType}
+            </if>
+            <if test="payResult != null">
+                AND pay_result = #{payResult}
+            </if>
+            <if test="payStatus != null">
+                AND pay_status = #{payStatus}
+            </if>
+            <if test="createStartAt != null">
+                AND create_at >= #{createStartAt}
+            </if>
+            <if test="createEndAt != null">
+                AND #{createEndAt} >= create_at
+            </if>
+            <if test="payStartAt != null">
+                AND pay_at >= #{payStartAt}
+            </if>
+            <if test="payEndAt != null">
+                AND #{payEndAt} >= pay_at
+            </if>
+            <if test="mobile != null and mobile != ''">
+                AND mobile = #{mobile}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create" parameterType="com.nowbook.sdp.model.PaymentDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into payment_detail ( <include refid="columns"/>)
+        values (#{idNo},#{userId},#{money},#{earnings},#{bonuses},#{deposit},#{payMoney},#{payType},#{payId},#{payName},#{payStatus}
+        ,#{payCode},#{payResult},#{reason},now(),#{payAt},#{updateAt})
+    </insert>
+
+    <update id="update" parameterType="com.nowbook.sdp.model.PaymentDetail">
+        update  payment_detail
+        <set>
+            <if test="idNo!=null">id_no = #{idNo},</if>
+            <if test="payName!=null">pay_name = #{payName},</if>
+            <if test="payId!=null">pay_id = #{payId},</if>
+            <if test="payType!=null">pay_type = #{payType},</if>
+            <if test="payMoney!=null">pay_money = #{payMoney},</if>
+            <if test="payStatus!=null">pay_status = #{payStatus},</if>
+            <if test="payCode!=null">pay_code = #{payCode},</if>
+            <if test="payResult!=null">pay_result = #{payResult},</if>
+            <if test="reason!=null">reason = #{reason},</if>
+            <if test="payAt!=null">pay_at = #{payAt},</if>
+            update_at = now()
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="findBy" resultMap="PaymentDetailMap" parameterType="com.nowbook.sdp.model.PaymentDetail">
+        select id,<include refid="columns"/> from payment_detail <include refid="condition"/> limit #{offset},#{limit}
+    </select>
+
+    <select id="paymentDetailList" resultMap="PaymentDetailMap" parameterType="com.nowbook.sdp.model.PaymentDetail">
+        select <include refid="paymentDetailColumns"/>
+        from payment_detail p left join users u on p.user_id = u.id
+        <include refid="condition"/>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="paymentDetailListCount" resultType="java.lang.Long" parameterType="com.nowbook.sdp.model.PaymentDetail">
+        select count(*)
+        from payment_detail p left join users u on p.user_id = u.id
+        <include refid="condition"/>
+    </select>
+</mapper>

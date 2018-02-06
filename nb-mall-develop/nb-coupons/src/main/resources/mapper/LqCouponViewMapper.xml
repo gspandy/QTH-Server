@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+   -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+        <!--table nb_coupons-->
+<mapper namespace="LqCouponView">
+    <resultMap id="LqCouponViewMap" type="LqCouponView">
+        <result property="couponId" column="id"/>
+        <result property="couponLqCount" column="couponCount"/>
+        <result property="couponName" column="cpName"/>
+    </resultMap>
+
+    <select id="findCouponAll" resultMap="LqCouponViewMap" parameterType="String">
+        SELECT
+            rc.id,
+            rc.cpName,
+            count(ru.id) AS couponCount
+        FROM
+            nb_coupons rc
+        INNER JOIN nb_coupons_users ru ON rc.id = ru.couponId
+        WHERE
+            #{today} BETWEEN rc.sendStartTime
+        AND rc.sendEndTime
+        GROUP BY
+            ru.couponId
+    </select>
+
+
+
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="DistributorsRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.nowbook.sdp.model.DistributorsRelation" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="distributor_id" property="distributorsId" jdbcType="BIGINT" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+    <result column="level" property="distributionLevel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, distributor_id, parent_id, evel
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from distributors_relation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from distributors_relation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.nowbook.sdp.model.DistributorsRelation" useGeneratedKeys="true" keyProperty="id">
+    insert into distributors_relation (distributor_id, parent_id, level
+      )
+    values (#{distributorsId,jdbcType=BIGINT}, #{parentId,jdbcType=VARCHAR}, #{distributionLevel,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nowbook.sdp.model.DistributorsRelation" useGeneratedKeys="true" keyProperty="id">
+    insert into distributors_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="distributorsId != null" >
+        distributor_id,
+      </if>
+      <if test="parentId != null" >
+        parent_ids,
+      </if>
+      <if test="distributionLevel != null" >
+        distribution_level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="distributorsId != null" >
+        #{distributorsId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="distributionLevel != null" >
+        #{distributionLevel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nowbook.sdp.model.DistributorsRelation" >
+    update distributors_relation
+    <set >
+      <if test="distributorsId != null" >
+        distributor_id = #{distributorsId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null" >
+        parent_ids = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="distributionLevel != null" >
+        distribution_level = #{distributionLevel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nowbook.sdp.model.DistributorsRelation" >
+    update distributors_relation
+    set distributor_id = #{distributorsId,jdbcType=BIGINT},
+      parent_ids = #{parentId,jdbcType=VARCHAR},
+      distribution_level = #{distributionLevel,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

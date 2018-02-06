@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.1.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <context:component-scan base-package="com.nowbook.common">
+        <context:exclude-filter type="assignable" expression="com.nowbook.common.utils.CommonConstants" />
+    </context:component-scan>
+    <context:component-scan base-package="com.nowbook.search"/>
+    <context:component-scan base-package="com.nowbook.category"/>
+    <context:component-scan base-package="com.nowbook.item"/>
+    <context:component-scan base-package="com.nowbook.shop"/>
+    <context:component-scan base-package="com.nowbook.trade"/>
+    <context:component-scan base-package="com.nowbook.user"/>
+
+    <bean class="com.nowbook.alipay.request.Token">
+        <constructor-arg index="0" value="#{app.alipayPid}"/>
+        <constructor-arg index="1" value="#{app.alipayKey}" />
+        <constructor-arg index="2" value="#{app.alipayAccount}" />
+        <constructor-arg index="3" value="#{app.alipayGateway}" />
+    </bean>
+
+
+    <context:component-scan base-package="com.nowbook.nowbook.settle"/>
+
+    <context:component-scan base-package="com.nowbook.nowbook.purify"/>
+
+
+    <context:component-scan base-package="com.nowbook.nowbook.code"/>
+
+
+    <util:properties id="app" location="classpath:app.properties"/>
+
+    <import resource="mysql-dao-context-test.xml" />
+    <import resource="redis-dao-context-test.xml" />
+    <import resource="nb-service-context.xml" />
+
+    <bean id="dataSource" class="org.unitils.database.UnitilsDataSourceFactoryBean"/>
+
+</beans>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2012 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+        <!--item related entity-->
+        <typeAlias alias="BrandClub"                type="com.nowbook.brand.model.BrandClub"/>
+        <typeAlias alias="BrandsClubKey"            type="com.nowbook.brand.model.BrandsClubKey"/>
+        <typeAlias alias="BrandClubProduct"         type="com.nowbook.brand.model.BrandClubProduct"/>
+        <typeAlias alias="BrandClubProductType"     type="com.nowbook.brand.model.BrandClubProductType"/>
+        <typeAlias alias="BrandClubSlide"           type="com.nowbook.brand.model.BrandClubSd"/>
+        <typeAlias alias="BrandClubType"            type="com.nowbook.brand.model.BrandClubType"/>
+        <typeAlias alias="BrandRlView"              type="com.nowbook.brand.model.BrandRlView"/>
+        <typeAlias alias="BrandUserAnnouncement"    type="com.nowbook.brand.model.BrandUserAnnouncement"/>
+        <typeAlias alias="BrandUser"                type="com.nowbook.brand.model.BrandUser"/>
+        <typeAlias alias="BrandClubVo"              type="com.nowbook.brand.model.BrandClubVo"/>
+        <typeAlias alias="BrandWRlView"             type="com.nowbook.brand.model.BrandWRlView"/>
+        <typeAlias alias="NbBrand"                 type="com.nowbook.brand.model.NbBrand"/>
+        <typeAlias alias="Addresses" type="com.nowbook.brand.model.Addresses"/>
+        <typeAlias alias="ExperinceMall" type="com.nowbook.brand.model.ExperinceMall"/>
+        <typeAlias alias="ExperMallView" type="com.nowbook.brand.model.ExperMallView"/>
+    </typeAliases>
+</configuration>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2012 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+        <!--item related entity-->
+        <typeAlias alias="Item"         type="com.nowbook.item.model.Item"/>
+        <typeAlias alias="ItemDetail"   type="com.nowbook.item.model.ItemDetail"/>
+        <typeAlias alias="Sku"          type="com.nowbook.item.model.Sku"/>
+        <typeAlias alias="Brand"        type="com.nowbook.item.model.Brand"/>
+        <typeAlias alias="SpuBundle"    type="com.nowbook.item.model.SpuBundle"/>
+        <typeAlias alias="ItemBundle"   type="com.nowbook.item.model.ItemBundle"/>
+        <typeAlias alias="TitleKeyword" type="com.nowbook.item.model.TitleKeyword"/>
+
+
+    </typeAliases>
+</configuration>

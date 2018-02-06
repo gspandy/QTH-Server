@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+   -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+        <!--table nb_coupons_users-->
+<mapper namespace="NbCouponsUser">
+    <resultMap id="nbCouponsUserMap" type="NbCouponsUser">
+        <id property="id" column="id"/>
+        <result property="couponId" column="couponId"/>
+        <result property="userId" column="userId"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="findUseCount" resultType="java.lang.Integer" parameterType="int">
+        SELECT COUNT(*) FROM nb_coupons_users WHERE couponId=#{couponId}
+    </select>
+
+    <select id="findUserUseCount" resultType="java.lang.Integer" parameterType="map">
+        SELECT COUNT(*) FROM nb_coupons_users WHERE couponId=#{couponId} AND userId=#{userid}
+    </select>
+
+    <insert id="addUserCoupon" parameterType="map">
+        insert into nb_coupons_users (userId,couponId,status)
+        values (#{userId},#{couponId},1)
+    </insert>
+
+    <select id="queryCouponsUserBy" resultMap="nbCouponsUserMap">
+        SELECT * FROM nb_coupons_users where status = 1 and couponId = #{couponId}
+        and userId = #{userId}
+    </select>
+
+    <update id="updateCouponUser" parameterType="int">
+        update nb_coupons_users set status= 2  where id=#{id}
+    </update>
+
+</mapper>

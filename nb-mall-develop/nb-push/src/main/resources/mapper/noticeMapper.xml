@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 大连锦霖科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="NoticeMapper">
+    <resultMap id="NoticeMap" type="com.nowbook.notice.model.Notice">
+        <id property="id" column="id"/>
+        <result property="businessId" column="business_id"/>
+        <result property="fromUser" column="from_user"/>
+        <result property="toUser" column="to_user"/>
+        <result property="type" column="type"/>
+        <result property="subType" column="sub_type"/>
+        <result property="content" column="content"/>
+        <result property="title" column="title"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+
+    </resultMap>
+
+    <sql id="columns">
+          business_id,from_user,to_user,type,sub_type,content,title,created_at,updated_at
+    </sql>
+    <sql id="columnsNotice">
+        n.business_id,n.from_user,n.to_user,n.type,n.sub_type,n.content,n.title,n.created_at,n.updated_at
+    </sql>
+
+    <sql id="table">
+        nb_notice
+    </sql>
+
+    <select id="get" parameterType="long" resultMap="NoticeMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where id = #{id}
+    </select>
+
+    <select id="findByToUserId" parameterType="com.nowbook.notice.model.Notice" resultMap="NoticeMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        <where>
+            to_user =#{toUser}
+            <if test="type != null ">
+                AND type = #{type}
+            </if>
+            <if test="createdAt != null ">
+                AND updated_at > #{createdAt}
+            </if>
+        </where>
+        ORDER BY created_at DESC
+    </select>
+
+    <insert id="create" parameterType="com.nowbook.notice.model.Notice" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table"/>
+        (<include refid="columns"/>)
+        values
+        (
+        #{businessId},#{fromUser}, #{toUser}, #{type},
+        #{subType},#{content}, #{title},
+            now(),now()
+        )
+
+    </insert>
+
+    <delete id="delete" parameterType="long">
+        delete from <include refid="table"/> where id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.nowbook.notice.model.Notice">
+        update <include refid="table"/>
+        <set>
+            <if test="businessId!=null">business_id=#{businessId},</if>
+            <if test="fromUser!=null">from_user=#{fromUser},</if>
+            <if test="toUser!=null">to_user=#{toUser},</if>
+            <if test="type!=null">type=#{type},</if>
+            <if test="subType!=null">sub_type=#{subType},</if>
+            <if test="content!=null">content=#{content},</if>
+            <if test="title!=null">title=#{title},</if>
+            <if test="updatedAt!=null">updated_at=#{updatedAt},</if>
+
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="countByType" resultMap="NoticeMap" parameterType="com.nowbook.notice.model.Notice">
+        SELECT count(`type`) AS 'count',type
+        FROM <include refid="table"/>
+        <where>
+            to_user =#{toUser}
+            <if test="type != null ">
+                AND type = #{type}
+            </if>
+            <if test="createdAt != null ">
+                AND updated_at > #{createdAt}
+            </if>
+        </where>
+        GROUP BY `type`
+    </select>
+    <select id="countAll" resultMap="NoticeMap" parameterType="com.nowbook.notice.model.Notice">
+        SELECT count(`id`) AS 'count'
+        FROM <include refid="table"/>
+        <where>
+            to_user =#{toUser}
+            <if test="type != null ">
+                AND type = #{type}
+            </if>
+            <if test="createdAt != null ">
+                AND updated_at > #{createdAt}
+            </if>
+        </where>
+    </select>
+
+    <select id="countWalletByUserId" resultMap="NoticeMap" parameterType="com.nowbook.notice.model.Notice">
+        SELECT count(`id`) AS 'count'
+        FROM user_wallet_summary
+        <where>
+            user_id =#{toUser}
+            <if test="createdAt != null ">
+                AND updated_at > #{createdAt}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getItemImageByOrderId" resultMap="NoticeMap" parameterType="long">
+        SELECT i.main_image AS 'itemImage'
+        FROM items i LEFT JOIN order_items oi ON oi.item_id= i.id   WHERE oi.`status`>0 AND oi.order_id=#{orderId}
+    </select>
+
+
+    <select id="getNoticeByExpressNo" resultMap="NoticeMap" parameterType="com.nowbook.notice.model.Notice">
+        SELECT n.id, <include refid="columnsNotice"/>
+        FROM  <include refid="table"/> n  LEFT JOIN order_logistics_infos oli ON n.business_id = oli.order_id
+        WHERE n.type=#{type} AND oli.express_no=#{expressNo} AND n.sub_type=#{subType}
+
+    </select>
+
+    <select id="getUserByOrderId" resultMap="NoticeMap" parameterType="long">
+        SELECT o.buyer_id AS 'toUser',o.id AS 'businessId'
+        FROM orders o  LEFT JOIN order_logistics_infos oli ON oli.order_id= o.id
+        WHERE oli.express_no=#{expressNo}
+
+    </select>
+
+
+
+
+
+
+</mapper>
